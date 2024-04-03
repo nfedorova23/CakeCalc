@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="caramel">#A96946</color>
+    <color name="chocolate">#271007</color>
+    <color name="sand">#ECCDB1</color>
+    <color name="dust">#CDB3A4</color>
 </resources>
