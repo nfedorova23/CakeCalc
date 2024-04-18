@@ -8,4 +8,10 @@
     </style>
 
     <style name="Theme.Cakecal" parent="Base.Theme.Cakecal" />
+
+    <style name="Theme.App" parent="Theme.MaterialComponents.Light">
+        <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView.Colored</item>
+        <item name="colorPrimary">@color/chocolate</item>
+        <item name="colorOnPrimary">@color/caramel</item>
+    </style>
 </resources>

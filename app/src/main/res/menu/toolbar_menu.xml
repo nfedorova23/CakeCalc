@@ -9,6 +9,7 @@
         app:showAsAction="ifRoom"
         app:actionViewClass="android.widget.SearchView" />
     <item
+        android:id="@+id/saved_menu"
         android:icon="@drawable/baseline_favorite_24"
         android:title="Saved"
         app:showAsAction="ifRoom"

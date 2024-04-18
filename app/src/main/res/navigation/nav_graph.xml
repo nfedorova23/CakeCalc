@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/recipes_menu">
+
+    <fragment
+        android:id="@+id/recipes_menu"
+        android:name="com.nfedorova.cakecal.presentation.ui.recipes.RecipesFragment"
+        android:label="Recipes"
+        tools:layout="@layout/fragment_recipes" >
+        <action
+            android:id="@+id/action_recipesFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/calculate_menu"
+        android:name="com.nfedorova.cakecal.presentation.ui.calculate.CalculateFragment"
+        android:label="Calculate"
+        tools:layout="@layout/fragment_calculate" />
+    <fragment
+        android:id="@+id/settings_menu"
+        android:name="com.nfedorova.cakecal.presentation.ui.settings.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.nfedorova.cakecal.presentation.ui.article.ArticleFragment"
+        android:label="Article"
+        tools:layout="@layout/fragment_article" >
+        <action
+            android:id="@+id/action_articleFragment_to_calculateFragment"
+            app:destination="@id/calculate_menu" />
+        <action
+            android:id="@+id/action_articleFragment_to_recipesFragment"
+            app:destination="@id/recipes_menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/saved_menu"
+        android:name="com.nfedorova.cakecal.presentation.ui.saved.SavedFragment"
+        android:label="Saved"
+        tools:layout="@layout/fragment_saved" />
+</navigation>
