@@ -1,5 +1,6 @@
 package com.nfedorova.cakecal
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -8,7 +9,6 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.nfedorova.cakecal.databinding.ActivityMainBinding
@@ -21,7 +21,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        var sharedPreferences = getSharedPreferences("KEY", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("KEY", "9").commit()
         navView = binding.bottomNavigationView
         navController = findNavController(R.id.fragmentContainerView)
         val appBarConfiguration = AppBarConfiguration(setOf(
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setupWithNavController(navController, appBarConfigurationOne)
         navView.setupWithNavController(navController)
+
+
 
     }
 
@@ -41,4 +44,6 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
+
+    override fun onBackPressed() {}
 }
