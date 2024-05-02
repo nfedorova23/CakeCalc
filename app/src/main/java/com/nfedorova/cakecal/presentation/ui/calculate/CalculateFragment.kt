@@ -19,6 +19,7 @@ class CalculateFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_calculate, container, false)
     }
 
+
     companion object {
 
     }

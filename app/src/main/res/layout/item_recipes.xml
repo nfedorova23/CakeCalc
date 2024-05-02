@@ -9,35 +9,28 @@
 
     <TextView
         android:id="@+id/title_tv"
-        android:layout_width="189dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="286dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="4dp"
         android:text="Title recipe"
-        android:textSize="20sp"
         android:textColor="@color/white"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.029"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/description_tv"
-        android:layout_width="191dp"
+        android:layout_width="291dp"
         android:layout_height="43dp"
-        android:textSize="18sp"
-        android:textColor="@color/white"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:text="Description recipes"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_tv" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="86dp"
-        android:layout_height="86dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
 
     <ImageButton
         android:id="@+id/imageButton"

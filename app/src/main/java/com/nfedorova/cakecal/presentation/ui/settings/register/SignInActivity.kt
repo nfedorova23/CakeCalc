@@ -1,19 +1,15 @@
 package com.nfedorova.cakecal.presentation.ui.settings.register
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.nfedorova.cakecal.MainActivity
-import com.nfedorova.cakecal.R
 import com.nfedorova.cakecal.databinding.ActivitySignInBinding
+import com.nfedorova.cakecal.domain.repository.sha256
 
 class SignInActivity : AppCompatActivity() {
 
@@ -23,42 +19,51 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var sharedPreferences = getSharedPreferences("KEY", Context.MODE_PRIVATE).edit()
-        var name: TextView = binding.editTextName
-        var email: TextView = binding.editTextTextEmailAddress
-        var pass: TextView = binding.editTextTextPassword
-        var button = binding.button
+        val sharedPreferences = getSharedPreferences("KEY", Context.MODE_PRIVATE).edit()
+        val name: TextView = binding.editTextName
+        val email: TextView = binding.editTextTextEmailAddress
+        val pass: TextView = binding.editTextTextPassword
+
+        val logInText: TextView = binding.loginTv
+        logInText.setOnClickListener {
+            val intent = Intent(this, LogInActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivity(intent)
+        }
+
+        val button = binding.button
         button.setOnClickListener {
             if (name.text.isEmpty()){
                 Toast.makeText(this, "Введите имя", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
             if (email.text.isEmpty() || !email.text.contains("@")){
                 Toast.makeText(this, "Почта введена неверно", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
             if (pass.text.isEmpty() || pass.text.length < 6){
                 Toast.makeText(this, "Пароль должен быть больше 6 символов", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-            else{
+
                 val db = Firebase.firestore
 
                 val user = hashMapOf(
                     "name" to name.text.toString(),
                     "email" to email.text.toString(),
-                    "password" to pass.text.toString()
+                    "password" to sha256(pass.text.toString())
                 )
 
                 db.collection("users")
                     .add(user)
                     .addOnSuccessListener {
-                        sharedPreferences.putString("Name", name.text.toString()).commit()
-                        //если не работает перенести за пределы коллекции
-                        startActivity(Intent(this, MainActivity::class.java))
+                        sharedPreferences.putString("Name", name.text.toString()).apply()
+                        startActivity(Intent(this, LogInActivity::class.java))
                     }
                     .addOnFailureListener { e ->
                         Toast.makeText(this, "Ошибка! Попробуйте еще раз", Toast.LENGTH_SHORT).show()
                     }
-                //перенести вот сюда
-            }
+
         }
     }
 }

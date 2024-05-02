@@ -1,10 +1,12 @@
 package com.nfedorova.cakecal
 
 import android.content.Context
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.WindowInsetsController
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -21,8 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var sharedPreferences = getSharedPreferences("KEY", Context.MODE_PRIVATE)
-        sharedPreferences.edit().putString("KEY", "9").commit()
+        val sharedPreferences = getSharedPreferences("KEY", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("KEY", "9").apply()
         navView = binding.bottomNavigationView
         navController = findNavController(R.id.fragmentContainerView)
         val appBarConfiguration = AppBarConfiguration(setOf(
@@ -32,7 +34,12 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setupWithNavController(navController, appBarConfigurationOne)
         navView.setupWithNavController(navController)
 
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.setSystemBarsAppearance(
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+            )
+        }
 
     }
 

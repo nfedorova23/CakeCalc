@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_recipesFragment_to_articleFragment"
             app:destination="@id/articleFragment" />
+        <action
+            android:id="@+id/action_recipes_menu_to_addRecipesFragment"
+            app:destination="@id/addRecipesFragment" />
     </fragment>
     <fragment
         android:id="@+id/calculate_menu"
@@ -40,5 +43,18 @@
         android:id="@+id/saved_menu"
         android:name="com.nfedorova.cakecal.presentation.ui.saved.SavedFragment"
         android:label="Saved"
-        tools:layout="@layout/fragment_saved" />
+        tools:layout="@layout/fragment_saved" >
+        <action
+            android:id="@+id/action_saved_menu_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addRecipesFragment"
+        android:name="com.nfedorova.cakecal.presentation.ui.recipes.AddRecipesFragment"
+        android:label="Add recipe"
+        tools:layout="@layout/fragment_add" >
+        <action
+            android:id="@+id/action_addRecipesFragment_to_recipes_menu"
+            app:destination="@id/recipes_menu" />
+    </fragment>
 </navigation>
