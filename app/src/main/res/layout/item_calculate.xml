@@ -8,7 +8,7 @@
     android:background="@color/dust">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_ingredients"
         android:layout_width="220dp"
         android:layout_height="37dp"
         android:layout_marginStart="16dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tv_count"
         android:layout_width="93dp"
         android:layout_height="37dp"
         android:layout_marginEnd="16dp"
@@ -30,6 +30,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.732"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintStart_toEndOf="@+id/tv_ingredients"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

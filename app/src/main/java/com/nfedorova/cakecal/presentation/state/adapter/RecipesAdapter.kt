@@ -1,5 +1,6 @@
 package com.nfedorova.cakecal.presentation.state.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,9 @@ class RecipesAdapter(private val recipes: List<RecipeModel>):
     RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder>(){
 
 
+    private val bundle: Bundle = Bundle()
+
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
@@ -31,7 +35,8 @@ class RecipesAdapter(private val recipes: List<RecipeModel>):
         val recipe = recipes[position]
         holder.bind(recipe)
         holder.itemView.setOnClickListener {
-            it.findNavController().navigate(R.id.action_recipesFragment_to_articleFragment)
+            bundle.putString("id", recipe.id)
+            it.findNavController().navigate(R.id.action_recipesFragment_to_articleFragment, bundle)
         }
         holder.itemView.findViewById<ImageButton>(R.id.imageButton).apply {
             this.setOnClickListener{

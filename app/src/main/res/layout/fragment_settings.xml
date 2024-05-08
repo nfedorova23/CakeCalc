@@ -8,17 +8,7 @@
     tools:context=".presentation.ui.settings.SettingsFragment">
 
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="202dp"
-        android:layout_height="59dp"
-        android:text="Settings"
-        android:textColor="@color/white"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="233dp" />
+
 
     <Button
         android:id="@+id/exit_button"

@@ -8,8 +8,8 @@ data class Recipes(
     val title: String?,
     val description: String?,
     val ingredients: List<Ingredients> = mutableListOf(),
-    val steps: String?,
-    var isSaved: Boolean = false,
+    val steps: String?
+
 )
 
 

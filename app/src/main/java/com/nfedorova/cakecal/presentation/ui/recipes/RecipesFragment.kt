@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.nfedorova.cakecal.R
 import com.nfedorova.cakecal.databinding.FragmentRecipesBinding
 import com.nfedorova.cakecal.domain.model.RecipeModel
+import com.nfedorova.cakecal.presentation.RecipesPresenter
 import com.nfedorova.cakecal.presentation.state.adapter.RecipesAdapter
 
 
@@ -24,7 +25,7 @@ class RecipesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private  var adapter: RecipesAdapter = RecipesAdapter(mutableListOf())
     private var recipesList = mutableListOf<RecipeModel>()
-    //private val recipesPresenter = RecipesPresenter(this, RecipesRepository())
+   // private val recipesPresenter = RecipesPresenter(this, RecipesRepository())
 
 
     override fun onCreateView(
@@ -79,6 +80,10 @@ class RecipesFragment : Fragment() {
                 Toast.makeText(context, "Ошибка! Попробуйте еще раз", Toast.LENGTH_SHORT).show()
             }
     }
+
+   /* override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }*/
 
     private fun makeAdapter() {
         adapter = RecipesAdapter(recipesList)
