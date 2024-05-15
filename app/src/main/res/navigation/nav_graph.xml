@@ -23,11 +23,6 @@
         android:label="Calculate"
         tools:layout="@layout/fragment_calculate" />
     <fragment
-        android:id="@+id/settings_menu"
-        android:name="com.nfedorova.cakecal.presentation.ui.settings.SettingsFragment"
-        android:label="Settings"
-        tools:layout="@layout/fragment_settings" />
-    <fragment
         android:id="@+id/articleFragment"
         android:name="com.nfedorova.cakecal.presentation.ui.article.ArticleFragment"
         android:label="Article"
@@ -57,4 +52,9 @@
             android:id="@+id/action_addRecipesFragment_to_recipes_menu"
             app:destination="@id/recipes_menu" />
     </fragment>
+    <fragment
+        android:id="@+id/about_menu"
+        android:name="com.nfedorova.cakecal.presentation.ui.aboutapp.AboutFragment"
+        android:label="About app"
+        tools:layout="@layout/fragment_about" />
 </navigation>

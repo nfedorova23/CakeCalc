@@ -1,4 +1,4 @@
-package com.nfedorova.cakecal.presentation.ui.settings
+package com.nfedorova.cakecal.presentation.ui.aboutapp
 
 import android.content.Context
 import android.content.Intent
@@ -7,21 +7,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.nfedorova.cakecal.databinding.FragmentSettingsBinding
-import com.nfedorova.cakecal.presentation.ui.settings.register.LogInActivity
-import com.nfedorova.cakecal.presentation.ui.settings.register.SignInActivity
+import com.nfedorova.cakecal.R
+import com.nfedorova.cakecal.databinding.FragmentAboutBinding
+import com.nfedorova.cakecal.presentation.ui.aboutapp.register.LogInActivity
 
 
-class SettingsFragment : Fragment() {
+class AboutFragment : Fragment() {
 
-    private lateinit var binding: FragmentSettingsBinding
+    private lateinit var binding: FragmentAboutBinding
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        binding = FragmentAboutBinding.inflate(inflater, container, false)
         return binding.root
 
 
@@ -45,10 +45,4 @@ class SettingsFragment : Fragment() {
     }
 
 
-
-
-    companion object {
-        const val TAG_SETTINGS = "TAG_SETTINGS"
-        fun newInstance() = SettingsFragment()
-    }
 }

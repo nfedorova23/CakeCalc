@@ -12,8 +12,9 @@
         android:title="@string/calculate"
         android:icon="@drawable/ic_calculate"/>
 
+
     <item
-        android:id="@+id/settings_menu"
-        android:title="@string/settings"
-        android:icon="@drawable/ic_settings"/>
+        android:id="@+id/about_menu"
+        android:title="@string/about"
+        android:icon="@drawable/ic_about"/>
 </menu>

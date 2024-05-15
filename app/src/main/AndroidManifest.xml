@@ -15,14 +15,14 @@
         android:theme="@style/Theme.Cakecal"
         tools:targetApi="31" >
         <activity
-            android:name=".presentation.ui.settings.register.SignInActivity"
+            android:name=".presentation.ui.aboutapp.register.SignInActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false"
             />
         <activity
-            android:name=".presentation.ui.settings.register.LogInActivity"
+            android:name=".presentation.ui.aboutapp.register.LogInActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

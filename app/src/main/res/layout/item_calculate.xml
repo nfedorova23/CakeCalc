@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:background="@color/dust">
+    android:background="@color/caramel">
 
     <TextView
         android:id="@+id/tv_ingredients"
@@ -27,6 +27,7 @@
         android:text="TextView"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:maxLength="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.732"

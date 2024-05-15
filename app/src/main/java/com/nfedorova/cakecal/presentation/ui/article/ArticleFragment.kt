@@ -1,7 +1,7 @@
 package com.nfedorova.cakecal.presentation.ui.article
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +11,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.nfedorova.cakecal.R
 import com.nfedorova.cakecal.data.model.Ingredients
 import com.nfedorova.cakecal.data.model.Recipes
 import com.nfedorova.cakecal.databinding.FragmentArticleBinding
 import com.nfedorova.cakecal.presentation.state.adapter.ArticleAdapter
-import com.nfedorova.cakecal.presentation.state.adapter.IngredientsAdapter
 
 
 class ArticleFragment : Fragment() {
@@ -27,7 +24,7 @@ class ArticleFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private  var adapter: ArticleAdapter = ArticleAdapter(mutableListOf())
     private var ingredientsList = mutableListOf<Ingredients>()
-
+    private val bundle: Bundle = Bundle()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +37,7 @@ class ArticleFragment : Fragment() {
         val calculate = binding.calculate
 
         calculate.setOnClickListener {
-            it.findNavController().navigate(R.id.action_articleFragment_to_calculateFragment)
+            it.findNavController().navigate(R.id.action_articleFragment_to_calculateFragment, arguments)
         }
 
         makeAdapter()
@@ -48,7 +45,7 @@ class ArticleFragment : Fragment() {
         return binding.root
     }
 
-
+    @SuppressLint("SuspiciousIndentation")
     private fun getArticle(){
         val title = binding.titleTv
         val description = binding.descriptionTv
@@ -83,7 +80,6 @@ class ArticleFragment : Fragment() {
                             }
                 }
     }
-
 
     private fun makeAdapter() {
         adapter = ArticleAdapter(ingredientsList)

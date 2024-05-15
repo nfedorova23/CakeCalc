@@ -1,4 +1,4 @@
-package com.nfedorova.cakecal.presentation.ui.settings.register
+package com.nfedorova.cakecal.presentation.ui.aboutapp.register
 
 import android.content.Context
 import android.content.Intent

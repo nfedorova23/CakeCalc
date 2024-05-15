@@ -5,22 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/caramel"
-    tools:context=".presentation.ui.settings.SettingsFragment">
-
-
+    tools:context=".presentation.ui.aboutapp.SettingsFragment">
 
 
     <Button
         android:id="@+id/exit_button"
-        android:layout_width="253dp"
-        android:layout_height="83dp"
+        android:layout_width="227dp"
+        android:layout_height="55dp"
         android:text="@string/exit"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.861" />
+        app:layout_constraintVertical_bias="0.966" />
+
+    <TextView
+        android:id="@+id/tv_about"
+        android:layout_width="310dp"
+        android:layout_height="648dp"
+        android:text="TextView"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.195" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

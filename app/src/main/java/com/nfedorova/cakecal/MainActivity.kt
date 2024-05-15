@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         navView = binding.bottomNavigationView
         navController = findNavController(R.id.fragmentContainerView)
         val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.recipes_menu, R.id.calculate_menu, R.id.settings_menu))
+            R.id.recipes_menu, R.id.calculate_menu, R.id.about_menu))
         val appBarConfigurationOne = AppBarConfiguration(navController.graph)
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setupWithNavController(navController, appBarConfigurationOne)
