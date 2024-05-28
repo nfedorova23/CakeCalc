@@ -7,37 +7,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
 import com.nfedorova.cakecal.R
-import com.nfedorova.cakecal.data.model.Ingredients
+import com.nfedorova.cakecal.data.datasource.database.IngredientsDataSourceImpl
+import com.nfedorova.cakecal.data.repository.IngredientsRepositoryImpl
+import com.nfedorova.cakecal.domain.model.Ingredients
 import com.nfedorova.cakecal.databinding.FragmentCalculateBinding
-import com.nfedorova.cakecal.domain.repository.invisible
-import com.nfedorova.cakecal.domain.repository.recalculating
-import com.nfedorova.cakecal.domain.repository.rectangularToRectangular
-import com.nfedorova.cakecal.domain.repository.rectangularToRound
-import com.nfedorova.cakecal.domain.repository.rectangularToSquare
-import com.nfedorova.cakecal.domain.repository.roundToRectangular
-import com.nfedorova.cakecal.domain.repository.roundToRound
-import com.nfedorova.cakecal.domain.repository.roundToSquare
-import com.nfedorova.cakecal.domain.repository.showTable
-import com.nfedorova.cakecal.domain.repository.squareToRectangular
-import com.nfedorova.cakecal.domain.repository.squareToRound
-import com.nfedorova.cakecal.domain.repository.squareToSquare
-import com.nfedorova.cakecal.domain.repository.validate
-import com.nfedorova.cakecal.domain.repository.visible
+import com.nfedorova.cakecal.domain.usecase.GetIngredientsUseCase
+import com.nfedorova.cakecal.domain.mapper.recalculating
+import com.nfedorova.cakecal.domain.mapper.showTable
+import com.nfedorova.cakecal.presentation.state.Transition
 import com.nfedorova.cakecal.presentation.state.adapter.ArticleAdapter
+import com.nfedorova.cakecal.presentation.state.utils.invisible
+import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
+import com.nfedorova.cakecal.presentation.state.utils.validate
+import com.nfedorova.cakecal.presentation.state.utils.visible
 
-
-
-class CalculateFragment : Fragment() {
+class CalculateFragment : Fragment(), Transition {
 
     private lateinit var binding: FragmentCalculateBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ArticleAdapter
     private var ingredientsList = arrayListOf<Ingredients>()
+    private val ingredientsRepository by lazy { context?.let { IngredientsDataSourceImpl() }
+       ?.let { IngredientsRepositoryImpl(ingredientsDataSource = it) } }
+    private val ingredientsUseCase by lazy { ingredientsRepository?.let { GetIngredientsUseCase(ingredientsRepository = it) } }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +39,9 @@ class CalculateFragment : Fragment() {
     ): View? {
         binding = FragmentCalculateBinding.inflate(layoutInflater, container, false)
         recyclerView = binding.rvCalculate
-        makeAdapter()
-        getIngredients()
+        adapter = ArticleAdapter(ingredientsList)
+        recyclerView.adapter = adapter
+        context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
         return binding.root
     }
 
@@ -57,27 +52,17 @@ class CalculateFragment : Fragment() {
         val button = binding.btnCalculate
         val showTableTV = binding.tvTable
 
-        val dH1TV = binding.tvDH1
-        val dH2TV = binding.tvDH2
-
-        val dH1ED = binding.editTextDH1
-        val dH2ED = binding.editTextDH2
-
-        val width1TV = binding.tvWidth1
-        val width2TV = binding.tvWidth2
-
-        val width1ED = binding.editTextWidth1
-        val width2ED = binding.editTextWidth2
-
-        val spinnerOne = binding.spinner
-        val spinnerTwo = binding.spinnerForm
+        val dH1TV = binding.tvDH1; val dH2TV = binding.tvDH2
+        val dH1ED = binding.editTextDH1; val dH2ED = binding.editTextDH2
+        val width1TV = binding.tvWidth1; val width2TV = binding.tvWidth2
+        val width1ED = binding.editTextWidth1; val width2ED = binding.editTextWidth2
+        val spinnerOne = binding.spinner; val spinnerTwo = binding.spinnerForm
 
         val textD = resources.getString(R.string.diameter)
         val textL = resources.getString(R.string.length)
 
-
         showTableTV.setOnClickListener {
-            context?.let { it1 -> showTable(it1) }
+            context?.let { it1 -> showTable(context = it1) }
         }
 
         spinnerOne.onItemSelectedListener =
@@ -90,20 +75,19 @@ class CalculateFragment : Fragment() {
                 ) {
                     when (parent.getItemAtPosition(position).toString()) {
                         "Round" -> {
-                            invisible(width1TV, width1ED)
+                            invisible(tv = width1TV, ed = width1ED)
                             dH1TV.text = textD
                         }
                         "Rectangular" -> {
-                            visible(width1TV, width1ED)
+                            visible(tv = width1TV, ed = width1ED)
                             dH1TV.text = textL
                         }
                         "Square" -> {
-                            invisible(width1TV, width1ED)
+                            invisible(tv = width1TV, ed = width1ED)
                             dH1TV.text = textL
                         }
                     }
                 }
-
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             }
@@ -118,86 +102,57 @@ class CalculateFragment : Fragment() {
                 ) {
                     when (parent.getItemAtPosition(position).toString()) {
                         "Round" -> {
-                            invisible(width2TV, width2ED)
+                            invisible(tv = width2TV, ed = width2ED)
                             dH2TV.text = textD
                         }
                         "Rectangular" -> {
-                            visible(width2TV, width2ED)
+                            visible(tv = width2TV, ed = width2ED)
                             dH2TV.text = textL
                         }
                         "Square" -> {
-                            invisible(width2TV, width2ED)
+                            invisible(tv = width2TV, ed = width2ED)
                             dH2TV.text = textL
                         }
                     }
                 }
-
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
+
+        val stringId = arguments?.getString("id") ?: return
+        ingredientsUseCase?.execute(stringId = stringId, data = this)
 
         button.setOnClickListener {
 
             val ratio: Double
 
-            val dlOneED = validate(dH1ED.text.toString())
-            val dlTwoED = validate(dH2ED.text.toString())
-            val widthOne = validate(width1ED.text.toString())
-            val widthTwo = validate(width2ED.text.toString())
+            val dlOneED = validate(string = dH1ED.text.toString())
+            val dlTwoED = validate(string = dH2ED.text.toString())
+            val widthOne = validate(string = width1ED.text.toString())
+            val widthTwo = validate(string = width2ED.text.toString())
 
             ratio =  recalculating(
-                spinnerOne.selectedItem.toString(),
-                spinnerTwo.selectedItem.toString(),
-                dlOneED, dlTwoED, widthOne, widthTwo
+                itemOne = spinnerOne.selectedItem.toString(),
+                itemTwo = spinnerTwo.selectedItem.toString(),
+                dlOne = dlOneED, dlTwo = dlTwoED,
+                wOne = widthOne, wTwo = widthTwo
             )
 
            val roundRatio = String.format("%.1f", ratio).toDouble()
 
             for (i in 0 until ingredientsList.size) {
                 val l = ingredientsList[i]
-                val list = Ingredients(l.ingredient, ((l.count?.toInt())?.times(roundRatio)).toString())
+                val list = Ingredients(ingredient = l.ingredient, count = ((l.count?.toInt())?.times(roundRatio)).toString())
                 ingredientsList[i] = list
                 adapter.notifyDataSetChanged()
             }
-
             button.isEnabled = false
         }
     }
 
-    private fun getIngredients(){
-        val stringId = arguments?.getString("id") ?: return
-        val recipesRef = FirebaseFirestore.getInstance().collection("recipes")
-        recipesRef.document(stringId)
-            .get()
-            .addOnSuccessListener { document ->
-                val id = document.id
-                ingredientsList = ArrayList()
-                val recipeRef = recipesRef.document(id)
-                val ingrRef = recipeRef.collection("ingredients")
-                ingrRef.get()
-                    .addOnSuccessListener { ingredients ->
-                        for (ingr in ingredients) {
-                            val i = ingr.getString("ingredient")
-                            val c = ingr.getString("count")
-                            val list = Ingredients(i, c)
-                            ingredientsList.add(list)
-                        }
-                        adapter=ArticleAdapter(ingredientsList)
-                        recyclerView.adapter = adapter
-                    }
-            }
-    }
-    private fun makeAdapter() {
-        adapter = ArticleAdapter(ingredientsList)
-        with(binding) {
-            recyclerView.adapter = adapter
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.addItemDecoration(
-                DividerItemDecoration(
-                    context,
-                    DividerItemDecoration.VERTICAL
-                )
-            )
-        }
+    override fun transferData(list: ArrayList<Ingredients>) {
+        ingredientsList = list
+        adapter = ArticleAdapter(ingredients = ingredientsList)
+        recyclerView.adapter = adapter
     }
     companion object {
         fun newInstance(bundle: Bundle) = CalculateFragment().apply {

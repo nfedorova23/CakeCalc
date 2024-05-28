@@ -6,20 +6,20 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.nfedorova.cakecal.R
-import com.nfedorova.cakecal.data.model.Ingredients
+import com.nfedorova.cakecal.domain.model.Ingredients
 
 class ArticleAdapter(private val ingredients: MutableList<Ingredients>):
 RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): ArticleAdapter.ArticleViewHolder {
+    ): ArticleViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_calculate, parent, false)
         return ArticleViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ArticleAdapter.ArticleViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val ingredient = ingredients[position]
         holder.bind(ingredient)
     }

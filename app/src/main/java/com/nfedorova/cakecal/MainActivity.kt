@@ -1,12 +1,14 @@
 package com.nfedorova.cakecal
 
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowInsetsController
+import androidx.appcompat.widget.SearchView
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navView: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val sharedPreferences = getSharedPreferences("KEY", Context.MODE_PRIVATE)
@@ -31,8 +34,8 @@ class MainActivity : AppCompatActivity() {
             R.id.recipes_menu, R.id.calculate_menu, R.id.about_menu))
         val appBarConfigurationOne = AppBarConfiguration(navController.graph)
         setSupportActionBar(binding.toolbar)
-        binding.toolbar.setupWithNavController(navController, appBarConfigurationOne)
-        navView.setupWithNavController(navController)
+        binding.toolbar.setupWithNavController(navController = navController, configuration = appBarConfigurationOne)
+        navView.setupWithNavController(navController = navController)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.setSystemBarsAppearance(
@@ -49,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+        return item.onNavDestinationSelected(navController = navController) || super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {}

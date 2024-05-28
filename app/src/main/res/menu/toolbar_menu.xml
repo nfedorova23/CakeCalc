@@ -2,12 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/app_bar_search"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="Search"
-        app:showAsAction="ifRoom"
-        app:actionViewClass="android.widget.SearchView" />
+
     <item
         android:id="@+id/saved_menu"
         android:icon="@drawable/baseline_favorite_24"

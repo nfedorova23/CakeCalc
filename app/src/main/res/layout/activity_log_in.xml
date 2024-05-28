@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/caramel"
-    tools:context=".presentation.ui.aboutapp.register.LogInActivity">
+    tools:context=".presentation.ui.register.LogInActivity">
 
     <TextView
         android:id="@+id/welcome_tv"

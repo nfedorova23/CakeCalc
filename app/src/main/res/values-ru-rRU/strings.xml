@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">cakecal</string>
+    <string name="recipes">Рецепты</string>
+    <string name="calculate">Расчет</string>
+    <string name="settings">Настройки</string>
+    <string name="signin">Регистрация</string>
+    <string name="login">Вход</string>
+    <string name="exit">Выход</string>
+    <string name="password">Пароль</string>
+    <string name="email">Эл. почта</string>
+    <string name="name">Имя</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Эл. почта</string>
+    <string name="prompt_password">Пароль</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">Добро пожаловать!</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">Login failed</string>
+    <string name="welcometv">Добро пожаловать!</string>
+    <string name="add">Добавить</string>
+    <string name="add_recipe">Добавить рецепт</string>
+    <string name="title">Название</string>
+    <string name="add_ingredients">Добавить ингредиенты</string>
+    <string name="description">Описание</string>
+    <string name="steps">Шаги приготовления</string>
+    <string name="about">О приложении</string>
+    <string name="table">Таблица коэффициентов в зависисмости от диаметра формы</string>
+    <string name="the_form_from_the_recipe">Форма из рецепта</string>
+    <string name="my_form">Моя форма</string>
+    <string name="width">Ширина</string>
+    <string name="diameter">Диаметр</string>
+    <string name="length">Длина</string>
+
+
+    <string-array name="form_array">
+        <item>Круглая</item>
+        <item>Прямоугольная</item>
+        <item>Квадратная</item>
+    </string-array>
+</resources>

@@ -5,23 +5,28 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.nfedorova.cakecal.data.datasource.database.RecipesDataSourceImpl
+import com.nfedorova.cakecal.data.repository.RecipesRepositoryImpl
 import com.nfedorova.cakecal.databinding.FragmentSavedBinding
+import com.nfedorova.cakecal.domain.usecase.AddRecipeToSavedUseCase
 import com.nfedorova.cakecal.domain.model.RecipeModel
 import com.nfedorova.cakecal.presentation.state.adapter.SavedAdapter
+import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
 
 
 class SavedFragment : Fragment() {
 
     private lateinit var binding: FragmentSavedBinding
     private lateinit var recyclerView: RecyclerView
-    private  var adapter: SavedAdapter = SavedAdapter(mutableListOf())
+    private  var adapter: SavedAdapter = SavedAdapter(recipes = mutableListOf())
     private var recipesSavedList = mutableListOf<RecipeModel>()
+    private val recipesRepository by lazy { context?.let { RecipesDataSourceImpl(context = it) }
+        ?.let { RecipesRepositoryImpl(recipeDataSource = it) } }
+    private val addRecipeToSavedUseCase by lazy { recipesRepository?.let {
+        AddRecipeToSavedUseCase(recipesRepository = it) }
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,37 +34,11 @@ class SavedFragment : Fragment() {
     ): View? {
        binding = FragmentSavedBinding.inflate(layoutInflater, container, false)
         recyclerView = binding.rvRecipes
-        makeAdapter()
-        Firebase.firestore.collection("saved_recipes")
-            .get()
-            .addOnSuccessListener {
-                val savedList = mutableListOf<RecipeModel>()
-                for (document in it){
-                    val recipeId = document.id
-                    val recipeTitle = document.getString("title")
-                    val recipeDescription = document.getString("description")
-                    val recipe = RecipeModel(recipeId,recipeTitle,recipeDescription)
-                    savedList.add(recipe)
-                    recyclerView.adapter = SavedAdapter(savedList)
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(context, "Ошибка! Попробуйте еще раз", Toast.LENGTH_SHORT).show()
-            }
-
-        return binding.root
-    }
-
-
-    private fun makeAdapter() {
-        adapter = SavedAdapter(recipesSavedList)
+        adapter = SavedAdapter(recipes = recipesSavedList)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
+        context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
+        val saved = addRecipeToSavedUseCase?.execute(recyclerView = recyclerView)
+        recyclerView.adapter = saved?.let { SavedAdapter(recipes = it) }
+        return binding.root
     }
 }

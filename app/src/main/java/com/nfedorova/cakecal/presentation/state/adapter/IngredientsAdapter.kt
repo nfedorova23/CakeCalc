@@ -9,7 +9,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.nfedorova.cakecal.R
-import com.nfedorova.cakecal.data.model.Ingredients
+import com.nfedorova.cakecal.domain.model.Ingredients
 
 
 class IngredientsAdapter(private val ingredients: MutableList<Ingredients>):

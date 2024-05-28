@@ -1,26 +1,12 @@
-package com.nfedorova.cakecal.domain.repository
+package com.nfedorova.cakecal.domain.mapper
 
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import com.nfedorova.cakecal.R
-import java.security.MessageDigest
-
 import kotlin.math.PI
 import kotlin.math.pow
-
-fun sha256(input: String): String {
-    val bytes = input.toByteArray()
-    val md = MessageDigest.getInstance("SHA-256")
-    val digest = md.digest(bytes)
-    return digest.joinToString("") {
-        "%02x".format(it)
-    }
-}
 
 fun showTable(context: Context){
     val dialogView = LayoutInflater.from(context).inflate(R.layout.show_table_dialog, null)
@@ -34,52 +20,21 @@ fun showTable(context: Context){
     val alertDialog = dialogBuilder.create()
     alertDialog.show()
 }
- fun visible(tv : TextView, ed : EditText){
-    tv.visibility = View.VISIBLE
-    ed.visibility = View.VISIBLE
-}
-fun invisible(tv: TextView, ed: EditText){
-    tv.visibility = View.GONE
-    ed.visibility = View.GONE
-}
-
-fun validate(string: String) : Int {
-    val stringInt: Int = if (string.isEmpty()) 1
-    else string.toInt()
-    if (stringInt == 0) return 1
-    return stringInt
-}
 
 fun recalculating(itemOne : String, itemTwo: String, dlOne: Int = 0, dlTwo : Int = 0,
                           wOne: Int = 0, wTwo: Int = 0): Double {
     var ratio = 0.0
 
-    if (itemOne == "Round" && itemTwo == "Round"){
-        ratio = roundToRound(dlOne, dlTwo)
-    }
-    if (itemOne == "Round" && itemTwo == "Rectangular"){
-        ratio = roundToRectangular(dlOne, dlTwo, wTwo)
-    }
-    if (itemOne == "Round" && itemTwo == "Square"){
-        ratio = roundToSquare(dlOne, dlTwo)
-    }
-    if (itemOne == "Rectangular" && itemTwo == "Round"){
-        ratio = rectangularToRound(dlOne, wOne, dlTwo)
-    }
-    if (itemOne == "Rectangular" && itemTwo == "Rectangular"){
-        ratio = rectangularToRectangular(dlOne, wOne, dlTwo, wTwo)
-    }
-    if (itemOne == "Rectangular" && itemTwo == "Square"){
-        ratio = rectangularToSquare(dlOne, wOne, dlTwo)
-    }
-    if (itemOne == "Square" && itemTwo == "Round"){
-        ratio = squareToRound(dlOne, dlTwo)
-    }
-    if (itemOne == "Square" && itemTwo == "Rectangular"){
-        ratio = squareToRectangular(dlOne, dlTwo, wTwo)
-    }
-    if (itemOne == "Square" && itemTwo == "Square"){
-        ratio = squareToSquare(dlOne, dlTwo)
+    when {
+        itemOne == "Round" && itemTwo == "Round" ->  ratio = roundToRound(dlOne, dlTwo)
+        itemOne == "Round" && itemTwo == "Rectangular" -> ratio = roundToRectangular(dlOne, dlTwo, wTwo)
+        itemOne == "Round" && itemTwo == "Square" -> ratio = roundToSquare(dlOne, dlTwo)
+        itemOne == "Rectangular" && itemTwo == "Round" -> ratio = rectangularToRound(dlOne, wOne, dlTwo)
+        itemOne == "Rectangular" && itemTwo == "Rectangular" -> ratio = rectangularToRectangular(dlOne, wOne, dlTwo, wTwo)
+        itemOne == "Rectangular" && itemTwo == "Square" -> ratio = rectangularToSquare(dlOne, wOne, dlTwo)
+        itemOne == "Square" && itemTwo == "Round" -> ratio = squareToRound(dlOne, dlTwo)
+        itemOne == "Square" && itemTwo == "Rectangular" -> ratio = squareToRectangular(dlOne, dlTwo, wTwo)
+        itemOne == "Square" && itemTwo == "Square" -> ratio = squareToSquare(dlOne, dlTwo)
     }
 
     return ratio

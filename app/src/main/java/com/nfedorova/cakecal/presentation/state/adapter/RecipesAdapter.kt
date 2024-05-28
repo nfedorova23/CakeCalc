@@ -15,7 +15,7 @@ import com.nfedorova.cakecal.R
 import com.nfedorova.cakecal.domain.model.RecipeModel
 
 
-class RecipesAdapter(private val recipes: List<RecipeModel>):
+class RecipesAdapter(private val recipes: MutableList<RecipeModel>):
     RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder>(){
 
 
@@ -31,7 +31,7 @@ class RecipesAdapter(private val recipes: List<RecipeModel>):
         return RecipesViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RecipesAdapter.RecipesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecipesViewHolder, position: Int) {
         val recipe = recipes[position]
         holder.bind(recipe)
         holder.itemView.setOnClickListener {
@@ -65,3 +65,5 @@ class RecipesAdapter(private val recipes: List<RecipeModel>):
     }
 
 }
+
+

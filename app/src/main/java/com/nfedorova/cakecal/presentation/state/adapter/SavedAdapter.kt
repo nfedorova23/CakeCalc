@@ -12,10 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.nfedorova.cakecal.R
+import com.nfedorova.cakecal.data.datasource.model.RecipeModelDBO
 import com.nfedorova.cakecal.domain.model.RecipeModel
 
 
-class SavedAdapter(private val recipes: List<RecipeModel>):
+class SavedAdapter(private val recipes: MutableList<RecipeModel>):
     RecyclerView.Adapter<SavedAdapter.SavedViewHolder>() {
 
     private val bundle: Bundle = Bundle()
@@ -23,13 +24,13 @@ class SavedAdapter(private val recipes: List<RecipeModel>):
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): SavedAdapter.SavedViewHolder {
+    ): SavedViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_recipes, parent, false)
         return SavedViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: SavedAdapter.SavedViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SavedViewHolder, position: Int) {
         val recipe = recipes[position]
         holder.bind(recipe)
         holder.itemView.setOnClickListener {
