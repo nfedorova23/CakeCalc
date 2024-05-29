@@ -1,4 +1,4 @@
-package com.nfedorova.cakecal.presentation.state
+package com.nfedorova.cakecal.domain.utils
 
 import com.nfedorova.cakecal.domain.model.Ingredients
 

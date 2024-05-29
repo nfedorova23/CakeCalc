@@ -19,7 +19,7 @@
             android:name=".presentation.ui.register.SignInActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.ui.MainActivity"
             android:exported="false"
             />
         <activity

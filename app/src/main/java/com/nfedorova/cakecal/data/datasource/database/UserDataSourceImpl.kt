@@ -5,7 +5,7 @@ import android.content.Intent
 import android.widget.Toast
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.nfedorova.cakecal.MainActivity
+import com.nfedorova.cakecal.presentation.ui.MainActivity
 import com.nfedorova.cakecal.data.datasource.UserDataSource
 import com.nfedorova.cakecal.data.datasource.mapper.sha256
 import com.nfedorova.cakecal.data.datasource.model.LoginUserDBO

@@ -5,7 +5,7 @@ import com.nfedorova.cakecal.domain.model.Article
 import com.nfedorova.cakecal.domain.model.Ingredients
 import com.nfedorova.cakecal.domain.model.RecipeModel
 import com.nfedorova.cakecal.domain.model.Recipes
-import kotlinx.coroutines.flow.Flow
+
 
 interface RecipesRepository {
     fun addRecipe(recipe: Recipes, ingredientsList: MutableList<Ingredients>): Boolean?

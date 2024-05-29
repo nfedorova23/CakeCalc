@@ -6,7 +6,7 @@ import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
-import com.nfedorova.cakecal.MainActivity
+import com.nfedorova.cakecal.presentation.ui.MainActivity
 import com.nfedorova.cakecal.data.datasource.database.UserDataSourceImpl
 import com.nfedorova.cakecal.data.repository.UserRepositoryImpl
 import com.nfedorova.cakecal.databinding.ActivityLogInBinding

@@ -14,9 +14,8 @@ import com.nfedorova.cakecal.data.repository.IngredientsRepositoryImpl
 import com.nfedorova.cakecal.domain.model.Ingredients
 import com.nfedorova.cakecal.databinding.FragmentCalculateBinding
 import com.nfedorova.cakecal.domain.usecase.GetIngredientsUseCase
-import com.nfedorova.cakecal.domain.mapper.recalculating
-import com.nfedorova.cakecal.domain.mapper.showTable
-import com.nfedorova.cakecal.presentation.state.Transition
+import com.nfedorova.cakecal.domain.utils.CalculatingImpl
+import com.nfedorova.cakecal.domain.utils.Transition
 import com.nfedorova.cakecal.presentation.state.adapter.ArticleAdapter
 import com.nfedorova.cakecal.presentation.state.utils.invisible
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
@@ -32,6 +31,7 @@ class CalculateFragment : Fragment(), Transition {
     private val ingredientsRepository by lazy { context?.let { IngredientsDataSourceImpl() }
        ?.let { IngredientsRepositoryImpl(ingredientsDataSource = it) } }
     private val ingredientsUseCase by lazy { ingredientsRepository?.let { GetIngredientsUseCase(ingredientsRepository = it) } }
+    private val calculating by lazy { CalculatingImpl() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,7 +62,7 @@ class CalculateFragment : Fragment(), Transition {
         val textL = resources.getString(R.string.length)
 
         showTableTV.setOnClickListener {
-            context?.let { it1 -> showTable(context = it1) }
+            context?.let { it1 -> calculating.showTable(context = it1) }
         }
 
         spinnerOne.onItemSelectedListener =
@@ -130,7 +130,7 @@ class CalculateFragment : Fragment(), Transition {
             val widthOne = validate(string = width1ED.text.toString())
             val widthTwo = validate(string = width2ED.text.toString())
 
-            ratio =  recalculating(
+            ratio = calculating.getRatio(
                 itemOne = spinnerOne.selectedItem.toString(),
                 itemTwo = spinnerTwo.selectedItem.toString(),
                 dlOne = dlOneED, dlTwo = dlTwoED,

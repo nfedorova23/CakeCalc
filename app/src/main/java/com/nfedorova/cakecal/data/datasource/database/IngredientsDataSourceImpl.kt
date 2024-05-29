@@ -4,7 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.nfedorova.cakecal.data.datasource.IngredientsDataSource
 import com.nfedorova.cakecal.data.datasource.mapper.mapToIngredientsDTO
 import com.nfedorova.cakecal.data.datasource.model.IngredientsDBO
-import com.nfedorova.cakecal.presentation.state.Transition
+import com.nfedorova.cakecal.domain.utils.Transition
 
 class IngredientsDataSourceImpl() : IngredientsDataSource{
     override fun getIngredients(stringId: String, data: Transition): Boolean {

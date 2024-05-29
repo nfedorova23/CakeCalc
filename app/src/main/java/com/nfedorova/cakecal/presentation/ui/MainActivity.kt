@@ -1,4 +1,4 @@
-package com.nfedorova.cakecal
+package com.nfedorova.cakecal.presentation.ui
 
 import android.content.Context
 import android.content.pm.ActivityInfo
@@ -8,13 +8,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowInsetsController
-import androidx.appcompat.widget.SearchView
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.nfedorova.cakecal.R
 import com.nfedorova.cakecal.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity() {
         navView = binding.bottomNavigationView
         navController = findNavController(R.id.fragmentContainerView)
         val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.recipes_menu, R.id.calculate_menu, R.id.about_menu))
+            R.id.recipes_menu, R.id.calculate_menu, R.id.about_menu
+        ))
         val appBarConfigurationOne = AppBarConfiguration(navController.graph)
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setupWithNavController(navController = navController, configuration = appBarConfigurationOne)

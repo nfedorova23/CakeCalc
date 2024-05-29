@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
+
 fun makeAdapter(recyclerView: RecyclerView, context: Context) {
     recyclerView.layoutManager = LinearLayoutManager(context)
     recyclerView.addItemDecoration(
@@ -34,3 +35,4 @@ fun validate(string: String) : Int {
     if (stringInt == 0) return 1
     return stringInt
 }
+

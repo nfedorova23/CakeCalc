@@ -1,7 +1,7 @@
 package com.nfedorova.cakecal.domain.usecase
 
 import com.nfedorova.cakecal.domain.repository.IngredientsRepository
-import com.nfedorova.cakecal.presentation.state.Transition
+import com.nfedorova.cakecal.domain.utils.Transition
 
 class GetIngredientsUseCase(private val ingredientsRepository: IngredientsRepository) {
      fun execute(stringId: String, data: Transition): Boolean{
