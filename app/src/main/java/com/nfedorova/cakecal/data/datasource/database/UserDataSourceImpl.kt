@@ -14,6 +14,7 @@ import com.nfedorova.cakecal.presentation.ui.register.LogInActivity
 
 class UserDataSourceImpl(private val context: Context) : UserDataSource {
 
+
     private val sharedPreferences = context.getSharedPreferences("KEY", Context.MODE_PRIVATE).edit()
     override fun addDB(userDBO: UserDBO): Boolean {
         val user = hashMapOf(
@@ -53,7 +54,7 @@ class UserDataSourceImpl(private val context: Context) : UserDataSource {
         return true
     }
 
-    override fun logUot(): Boolean {
+    override fun logOut(): Boolean {
         if (sharedPreferences != null) {
                 sharedPreferences.remove("KEY").apply()
                 context.startActivity(Intent(context, LogInActivity::class.java))

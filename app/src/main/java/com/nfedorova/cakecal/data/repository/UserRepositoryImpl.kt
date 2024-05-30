@@ -8,7 +8,6 @@ import com.nfedorova.cakecal.domain.model.LoginUser
 import com.nfedorova.cakecal.domain.model.User
 import com.nfedorova.cakecal.domain.repository.UserRepository
 
-
 class UserRepositoryImpl(private val dataSource: UserDataSource) : UserRepository{
 
     override fun addDBUserData(userDB: User) : Boolean {
@@ -22,7 +21,7 @@ class UserRepositoryImpl(private val dataSource: UserDataSource) : UserRepositor
     }
 
     override fun logOut(): Boolean {
-        return dataSource.logUot()
+        return dataSource.logOut()
     }
 }
 

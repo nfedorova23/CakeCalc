@@ -1,7 +1,7 @@
 package com.nfedorova.cakecal.domain.repository
 
-import com.nfedorova.cakecal.domain.utils.Transition
+import com.nfedorova.cakecal.domain.utils.TransferIngredients
 
 interface IngredientsRepository {
-    fun getIngredients(stringId: String, data: Transition) : Boolean
+    fun getIngredients(stringId: String, data: TransferIngredients) : Boolean
 }

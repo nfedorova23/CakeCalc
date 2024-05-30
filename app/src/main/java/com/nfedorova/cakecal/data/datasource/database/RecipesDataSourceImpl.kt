@@ -2,7 +2,6 @@ package com.nfedorova.cakecal.data.datasource.database
 
 import android.content.Context
 import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -13,9 +12,10 @@ import com.nfedorova.cakecal.data.datasource.model.ArticleDBO
 import com.nfedorova.cakecal.data.datasource.model.IngredientsDBO
 import com.nfedorova.cakecal.data.datasource.model.RecipeModelDBO
 import com.nfedorova.cakecal.data.datasource.model.RecipesDBO
-import com.nfedorova.cakecal.presentation.state.adapter.ArticleAdapter
-import com.nfedorova.cakecal.presentation.state.adapter.RecipesAdapter
-import com.nfedorova.cakecal.presentation.state.adapter.SavedAdapter
+import com.nfedorova.cakecal.domain.utils.TransferArticle
+import com.nfedorova.cakecal.domain.utils.TransferRecipes
+import com.nfedorova.cakecal.domain.utils.TransferSaved
+
 
 class RecipesDataSourceImpl(private val context: Context): RecipeDataSource {
     override fun addRecipe(recipeDBO: RecipesDBO, ingredientsList: MutableList<IngredientsDBO>): Boolean {
@@ -47,7 +47,7 @@ class RecipesDataSourceImpl(private val context: Context): RecipeDataSource {
         return true
     }
 
-    override fun addRecipeToSaved(recyclerView: RecyclerView): MutableList<RecipeModelDBO> {
+    override fun addRecipeToSaved(data: TransferSaved): Boolean {
         val savedList = mutableListOf<RecipeModelDBO>()
         Firebase.firestore.collection("saved_recipes")
             .get()
@@ -58,13 +58,13 @@ class RecipesDataSourceImpl(private val context: Context): RecipeDataSource {
                     val recipeDescription = document.getString("description")
                     val recipe = RecipeModelDBO(recipeId,recipeTitle,recipeDescription)
                     savedList.add(recipe)
-                    recyclerView.adapter = SavedAdapter(mapToRecipeModel(savedList))
+                    data.transferData(mapToRecipeModel(savedList))
                 }
             }
-        return savedList
+        return true
     }
 
-    override fun getAllRecipes(recyclerView: RecyclerView): MutableList<RecipeModelDBO>{
+    override fun getAllRecipes(data: TransferRecipes): Boolean{
         val recipeList = mutableListOf<RecipeModelDBO>()
         val recipesRef = FirebaseFirestore.getInstance().collection("recipes")
         recipesRef.get()
@@ -75,13 +75,13 @@ class RecipesDataSourceImpl(private val context: Context): RecipeDataSource {
                     val recipeDescription = document.getString("description")
                     val recipe = RecipeModelDBO(recipeId,recipeTitle,recipeDescription)
                     recipeList.add(recipe)
-                    recyclerView.adapter = RecipesAdapter(mapToRecipeModel(recipeList))
+                    data.transferData(mapToRecipeModel(recipeList))
                 }
             }
-        return recipeList
+        return true
     }
 
-    override fun getRecipeArticle(stringId: String, recyclerView: RecyclerView, model: ArticleDBO) : Boolean{
+    override fun getRecipeArticle(stringId: String, data: TransferArticle, model: ArticleDBO) : Boolean{
         val articleList = mutableListOf<RecipesDBO>()
         val recipesRef = FirebaseFirestore.getInstance().collection("recipes")
         recipesRef.document(stringId)
@@ -104,7 +104,7 @@ class RecipesDataSourceImpl(private val context: Context): RecipeDataSource {
                         }
                         val article = RecipesDBO(id, titleI, descriptionI, ingrList, stepsI)
                         articleList.add(article)
-                        recyclerView.adapter = ArticleAdapter(mapToIngredients(ingrList))
+                        data.transferData(mapToIngredients(ingrList))
                         with(model) {
                             title.text = titleI
                             description.text = descriptionI

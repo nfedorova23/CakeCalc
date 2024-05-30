@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/caramel"
-    tools:context=".presentation.ui.aboutapp.SettingsFragment">
+    tools:context=".presentation.ui.aboutapp.AboutFragment">
 
 
     <Button
@@ -22,11 +22,11 @@
 
     <TextView
         android:id="@+id/tv_about"
-        android:layout_width="310dp"
-        android:layout_height="648dp"
-        android:text="TextView"
-        android:textSize="20sp"
+        android:layout_width="354dp"
+        android:layout_height="652dp"
+        android:text="@string/about_app"
         android:textColor="@color/white"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"

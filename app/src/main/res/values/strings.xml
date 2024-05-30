@@ -32,6 +32,10 @@
     <string name="width">Width</string>
     <string name="diameter">Diameter</string>
     <string name="length">Length</string>
+    <string name="about_app">In this application you can find a list of baking recipes, and if you do not need it, you
+        can add your own. If you found something you liked, you have 2 ways: either add to the saved ones and cook later,
+        or look at the recipe page, click the "calculating" button, then select your shape and from the recipe, enter the size,
+        click the "calculating" button and use the amount of ingredients that is shown on the screen. Have a good cooking!</string>
 
     <string-array name="form_array">
         <item>Round</item>

@@ -14,10 +14,11 @@ import com.nfedorova.cakecal.data.repository.RecipesRepositoryImpl
 import com.nfedorova.cakecal.databinding.FragmentRecipesBinding
 import com.nfedorova.cakecal.domain.usecase.GetRecipesUseCase
 import com.nfedorova.cakecal.domain.model.RecipeModel
+import com.nfedorova.cakecal.domain.utils.TransferRecipes
 import com.nfedorova.cakecal.presentation.state.adapter.RecipesAdapter
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
 
-class RecipesFragment : Fragment() {
+class RecipesFragment : Fragment(), TransferRecipes{
 
     private lateinit var binding: FragmentRecipesBinding
     private lateinit var recyclerView: RecyclerView
@@ -46,9 +47,7 @@ class RecipesFragment : Fragment() {
         adapter = RecipesAdapter(recipes = recipesList)
         recyclerView.adapter = adapter
         context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
-        val recipes = getRecipesUseCase?.execute(recyclerView = recyclerView)
-        recyclerView.adapter = recipes?.let { RecipesAdapter(recipes = it) }
-
+        getRecipesUseCase?.execute(data = this)
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -64,5 +63,10 @@ class RecipesFragment : Fragment() {
         addFAB.setOnClickListener{
             it.findNavController().navigate(R.id.action_recipes_menu_to_addRecipesFragment)
         }
+    }
+
+    override fun transferData(list: MutableList<RecipeModel>) {
+        recipesList = list
+        recyclerView.adapter = RecipesAdapter(recipes = recipesList)
     }
 }

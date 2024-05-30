@@ -11,11 +11,12 @@ import com.nfedorova.cakecal.data.repository.RecipesRepositoryImpl
 import com.nfedorova.cakecal.databinding.FragmentSavedBinding
 import com.nfedorova.cakecal.domain.usecase.AddRecipeToSavedUseCase
 import com.nfedorova.cakecal.domain.model.RecipeModel
+import com.nfedorova.cakecal.domain.utils.TransferSaved
 import com.nfedorova.cakecal.presentation.state.adapter.SavedAdapter
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
 
 
-class SavedFragment : Fragment() {
+class SavedFragment : Fragment(), TransferSaved {
 
     private lateinit var binding: FragmentSavedBinding
     private lateinit var recyclerView: RecyclerView
@@ -37,8 +38,12 @@ class SavedFragment : Fragment() {
         adapter = SavedAdapter(recipes = recipesSavedList)
         recyclerView.adapter = adapter
         context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
-        val saved = addRecipeToSavedUseCase?.execute(recyclerView = recyclerView)
-        recyclerView.adapter = saved?.let { SavedAdapter(recipes = it) }
+        addRecipeToSavedUseCase?.execute(data = this)
         return binding.root
+    }
+
+    override fun transferData(list: MutableList<RecipeModel>) {
+        recipesSavedList = list
+        recyclerView.adapter = SavedAdapter(recipesSavedList)
     }
 }

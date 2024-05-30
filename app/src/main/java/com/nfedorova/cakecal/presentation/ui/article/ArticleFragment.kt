@@ -14,11 +14,12 @@ import com.nfedorova.cakecal.domain.model.Ingredients
 import com.nfedorova.cakecal.databinding.FragmentArticleBinding
 import com.nfedorova.cakecal.domain.usecase.GetRecipesArticleUseCase
 import com.nfedorova.cakecal.domain.model.Article
+import com.nfedorova.cakecal.domain.utils.TransferArticle
 import com.nfedorova.cakecal.presentation.state.adapter.ArticleAdapter
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
 
 
-class ArticleFragment : Fragment() {
+class ArticleFragment : Fragment(), TransferArticle{
 
     private lateinit var binding: FragmentArticleBinding
     private lateinit var recyclerView: RecyclerView
@@ -51,16 +52,20 @@ class ArticleFragment : Fragment() {
         val steps = binding.stepsTv
         recyclerView.adapter = adapter
         context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
-
         val stringId = arguments?.getString("id") ?: return
         val article = Article(title = title, description = description, steps = steps)
-        articleUseCase?.execute(stringId = stringId, recyclerView = recyclerView, model = article)
+        articleUseCase?.execute(stringId = stringId, data = this, model = article)
     }
 
     companion object{
         fun newInstance(bundle: Bundle) = ArticleFragment().apply {
             arguments = bundle
         }
+    }
+
+    override fun transferData(list: MutableList<Ingredients>) {
+        ingredientsList = list
+        recyclerView.adapter = ArticleAdapter(ingredientsList)
     }
 
 }

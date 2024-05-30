@@ -1,11 +1,11 @@
 package com.nfedorova.cakecal.domain.usecase
 
-import androidx.recyclerview.widget.RecyclerView
 import com.nfedorova.cakecal.domain.model.Article
 import com.nfedorova.cakecal.domain.repository.RecipesRepository
+import com.nfedorova.cakecal.domain.utils.TransferArticle
 
 class GetRecipesArticleUseCase(private val recipesRepository: RecipesRepository) {
-    fun execute(stringId: String, recyclerView: RecyclerView, model: Article): Boolean {
-        return recipesRepository.getRecipeArticle(stringId = stringId, recyclerView = recyclerView, model = model)
+    fun execute(stringId: String, data: TransferArticle, model: Article): Boolean {
+        return recipesRepository.getRecipeArticle(stringId = stringId, data = data, model = model)
     }
 }

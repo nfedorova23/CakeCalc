@@ -15,14 +15,14 @@ import com.nfedorova.cakecal.domain.model.Ingredients
 import com.nfedorova.cakecal.databinding.FragmentCalculateBinding
 import com.nfedorova.cakecal.domain.usecase.GetIngredientsUseCase
 import com.nfedorova.cakecal.domain.utils.CalculatingImpl
-import com.nfedorova.cakecal.domain.utils.Transition
+import com.nfedorova.cakecal.domain.utils.TransferIngredients
 import com.nfedorova.cakecal.presentation.state.adapter.ArticleAdapter
 import com.nfedorova.cakecal.presentation.state.utils.invisible
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
 import com.nfedorova.cakecal.presentation.state.utils.validate
 import com.nfedorova.cakecal.presentation.state.utils.visible
 
-class CalculateFragment : Fragment(), Transition {
+class CalculateFragment : Fragment(), TransferIngredients {
 
     private lateinit var binding: FragmentCalculateBinding
     private lateinit var recyclerView: RecyclerView

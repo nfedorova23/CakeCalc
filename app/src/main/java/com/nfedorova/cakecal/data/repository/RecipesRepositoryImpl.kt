@@ -11,6 +11,9 @@ import com.nfedorova.cakecal.domain.model.Ingredients
 import com.nfedorova.cakecal.domain.model.RecipeModel
 import com.nfedorova.cakecal.domain.model.Recipes
 import com.nfedorova.cakecal.domain.repository.RecipesRepository
+import com.nfedorova.cakecal.domain.utils.TransferArticle
+import com.nfedorova.cakecal.domain.utils.TransferRecipes
+import com.nfedorova.cakecal.domain.utils.TransferSaved
 
 class RecipesRepositoryImpl(private val recipeDataSource: RecipeDataSource): RecipesRepository {
     override fun addRecipe(recipe: Recipes, ingredientsList: MutableList<Ingredients>): Boolean? {
@@ -19,18 +22,16 @@ class RecipesRepositoryImpl(private val recipeDataSource: RecipeDataSource): Rec
         return recipeDBO?.let { recipeDataSource.addRecipe(recipeDBO = it, ingredientsList = ingredientsDBO) }
     }
 
-    override fun addRecipeToSaved(recyclerView: RecyclerView): MutableList<RecipeModel> {
-        val dbo = recipeDataSource.addRecipeToSaved(recyclerView = recyclerView)
-        return mapToRecipeModel(dbo)
+    override fun addRecipeToSaved(data: TransferSaved) : Boolean {
+        return recipeDataSource.addRecipeToSaved(data = data)
     }
 
-    override fun getAllRecipes(recyclerView: RecyclerView): MutableList<RecipeModel> {
-        val dbo = recipeDataSource.getAllRecipes(recyclerView = recyclerView)
-        return mapToRecipeModel(dbo)
+    override fun getAllRecipes(data: TransferRecipes) : Boolean{
+        return recipeDataSource.getAllRecipes(data = data)
     }
 
-    override fun getRecipeArticle(stringId: String, recyclerView: RecyclerView, model: Article) : Boolean {
-        return recipeDataSource.getRecipeArticle(stringId = stringId, recyclerView = recyclerView, model = mapToArticleDBO(model) )
+    override fun getRecipeArticle(stringId: String, data: TransferArticle, model: Article) : Boolean  {
+         return recipeDataSource.getRecipeArticle(stringId = stringId, data = data, model = mapToArticleDBO(model) )
     }
 
 }
