@@ -37,7 +37,7 @@ fun mapToIngredientsDBO(ingredientsList: MutableList<Ingredients>) : MutableList
 fun mapToRecipeModel(dbo: MutableList<RecipeModelDBO>): MutableList<RecipeModel>{
     val recipeModelList: MutableList<RecipeModel> = mutableListOf()
     for (list in dbo){
-        val recipeModel = RecipeModel(id = list.id, title = list.title, description = list.description)
+        val recipeModel = RecipeModel(id = list.id, title = list.title, description = list.description, userId = list.userId)
         recipeModelList.add(recipeModel)
     }
     return recipeModelList

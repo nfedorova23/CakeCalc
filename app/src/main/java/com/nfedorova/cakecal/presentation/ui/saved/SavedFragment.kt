@@ -1,5 +1,6 @@
 package com.nfedorova.cakecal.presentation.ui.saved
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import com.nfedorova.cakecal.domain.model.RecipeModel
 import com.nfedorova.cakecal.domain.utils.TransferSaved
 import com.nfedorova.cakecal.presentation.state.adapter.SavedAdapter
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
+import com.nfedorova.cakecal.presentation.ui.article.ArticleFragment
 
 
 class SavedFragment : Fragment(), TransferSaved {
@@ -38,7 +40,10 @@ class SavedFragment : Fragment(), TransferSaved {
         adapter = SavedAdapter(recipes = recipesSavedList)
         recyclerView.adapter = adapter
         context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
-        addRecipeToSavedUseCase?.execute(data = this)
+        val sharedPreferences = activity?.getSharedPreferences("UserId", Context.MODE_PRIVATE)
+        if (sharedPreferences != null) {
+            addRecipeToSavedUseCase?.execute(data = this, sp = sharedPreferences)
+        }
         return binding.root
     }
 

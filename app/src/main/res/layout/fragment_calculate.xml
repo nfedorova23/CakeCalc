@@ -47,12 +47,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_calculate"
         android:layout_width="380dp"
-        android:layout_height="323dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_table"
         tools:listitem="@layout/item_calculate" />
 
     <LinearLayout
@@ -76,7 +77,7 @@
                 android:id="@+id/spinner"
                 android:layout_width="164dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginBottom="56dp"
                 android:background="@color/dust"
                 android:entries="@array/form_array"
@@ -87,6 +88,7 @@
                 android:id="@+id/spinner_form"
                 android:layout_width="162dp"
                 android:layout_height="34dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginBottom="44dp"
                 android:background="@color/dust"
                 android:entries="@array/form_array"

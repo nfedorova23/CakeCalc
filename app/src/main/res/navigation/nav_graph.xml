@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_recipes_menu_to_addRecipesFragment"
             app:destination="@id/addRecipesFragment" />
+        <action
+            android:id="@+id/action_recipes_menu_to_saved_menu"
+            app:destination="@id/saved_menu" />
     </fragment>
     <fragment
         android:id="@+id/calculate_menu"

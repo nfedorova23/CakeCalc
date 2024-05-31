@@ -1,5 +1,7 @@
 package com.nfedorova.cakecal.presentation.state.adapter
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,12 +17,12 @@ import com.nfedorova.cakecal.R
 import com.nfedorova.cakecal.domain.model.RecipeModel
 
 
-class RecipesAdapter(private val recipes: MutableList<RecipeModel>):
+class RecipesAdapter(private val recipes: MutableList<RecipeModel>, private var sharedPreferences: SharedPreferences):
     RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder>(){
 
 
     private val bundle: Bundle = Bundle()
-
+    private var userId : String = ""
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -40,15 +42,21 @@ class RecipesAdapter(private val recipes: MutableList<RecipeModel>):
         }
         holder.itemView.findViewById<ImageButton>(R.id.imageButton).apply {
             this.setOnClickListener{
-                this.setImageResource(R.drawable.baseline_favorite_24)
-                Firebase.firestore.collection("saved_recipes").document(recipe.id)
-                    .set(recipe)
-                    .addOnSuccessListener {
-                        Toast.makeText(context, "is Saved", Toast.LENGTH_SHORT).show()
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
-                    }
+                val id = sharedPreferences.getString("UserId","" )
+                if (userId == id ){
+                    Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
+                }else {
+                    recipe.userId = id
+                    this.setImageResource(R.drawable.baseline_favorite_24)
+                    Firebase.firestore.collection("saved_recipes").document(recipe.id)
+                        .set(recipe)
+                        .addOnSuccessListener {
+                            Toast.makeText(context, "is Saved", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
+                        }
+                }
             }
         }
     }

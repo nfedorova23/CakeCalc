@@ -1,5 +1,7 @@
 package com.nfedorova.cakecal.presentation.ui.aboutapp
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,9 +11,11 @@ import com.nfedorova.cakecal.data.datasource.database.UserDataSourceImpl
 import com.nfedorova.cakecal.data.repository.UserRepositoryImpl
 import com.nfedorova.cakecal.databinding.FragmentAboutBinding
 import com.nfedorova.cakecal.domain.usecase.LogoutUseCase
+import com.nfedorova.cakecal.domain.utils.ChangeOfActivityLogOut
+import com.nfedorova.cakecal.presentation.ui.register.LogInActivity
 
 
-class AboutFragment : Fragment() {
+class AboutFragment : Fragment(), ChangeOfActivityLogOut {
 
     private lateinit var binding: FragmentAboutBinding
     private val userRepository by lazy {
@@ -32,7 +36,13 @@ class AboutFragment : Fragment() {
 
         val logOut = binding.exitButton
         logOut.setOnClickListener {
-            logoutUseCase?.execute()
+            logoutUseCase?.execute(this)
         }
+    }
+
+    override fun changeOfActivity() {
+        val sharedPreferences = activity?.getSharedPreferences("KEY", Context.MODE_PRIVATE)
+        sharedPreferences?.edit()?.putString("KEY", "-9")?.apply()
+        startActivity(Intent(context, LogInActivity::class.java))
     }
 }

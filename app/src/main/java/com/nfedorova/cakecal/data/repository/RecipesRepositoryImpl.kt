@@ -1,5 +1,6 @@
 package com.nfedorova.cakecal.data.repository
 
+import android.content.SharedPreferences
 import androidx.recyclerview.widget.RecyclerView
 import com.nfedorova.cakecal.data.datasource.RecipeDataSource
 import com.nfedorova.cakecal.data.datasource.mapper.mapToArticleDBO
@@ -22,8 +23,8 @@ class RecipesRepositoryImpl(private val recipeDataSource: RecipeDataSource): Rec
         return recipeDBO?.let { recipeDataSource.addRecipe(recipeDBO = it, ingredientsList = ingredientsDBO) }
     }
 
-    override fun addRecipeToSaved(data: TransferSaved) : Boolean {
-        return recipeDataSource.addRecipeToSaved(data = data)
+    override fun addRecipeToSaved(data: TransferSaved, sp: SharedPreferences) : Boolean {
+        return recipeDataSource.addRecipeToSaved(data = data, sp = sp)
     }
 
     override fun getAllRecipes(data: TransferRecipes) : Boolean{

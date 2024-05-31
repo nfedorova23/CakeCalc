@@ -57,15 +57,14 @@ class ArticleFragment : Fragment(), TransferArticle{
         articleUseCase?.execute(stringId = stringId, data = this, model = article)
     }
 
-    companion object{
-        fun newInstance(bundle: Bundle) = ArticleFragment().apply {
-            arguments = bundle
-        }
-    }
-
     override fun transferData(list: MutableList<Ingredients>) {
         ingredientsList = list
         recyclerView.adapter = ArticleAdapter(ingredientsList)
     }
 
+    companion object{
+        fun newInstance(bundle: Bundle) = ArticleFragment().apply {
+            arguments = bundle
+        }
+    }
 }

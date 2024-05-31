@@ -1,5 +1,6 @@
 package com.nfedorova.cakecal.data.datasource
 
+import android.content.SharedPreferences
 import androidx.recyclerview.widget.RecyclerView
 import com.nfedorova.cakecal.data.datasource.model.ArticleDBO
 import com.nfedorova.cakecal.data.datasource.model.IngredientsDBO
@@ -13,7 +14,7 @@ import com.nfedorova.cakecal.domain.utils.TransferSaved
 interface RecipeDataSource {
 
     fun addRecipe(recipeDBO: RecipesDBO, ingredientsList: MutableList<IngredientsDBO>): Boolean
-    fun addRecipeToSaved(data: TransferSaved): Boolean
+    fun addRecipeToSaved(data: TransferSaved, sp: SharedPreferences): Boolean
     fun getAllRecipes(data: TransferRecipes): Boolean
     fun getRecipeArticle(stringId: String, data: TransferArticle, model: ArticleDBO) : Boolean
 }

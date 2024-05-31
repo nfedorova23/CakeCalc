@@ -10,8 +10,9 @@ import com.nfedorova.cakecal.data.repository.UserRepositoryImpl
 import com.nfedorova.cakecal.databinding.ActivitySignInBinding
 import com.nfedorova.cakecal.domain.usecase.RegisterByEmailUseCase
 import com.nfedorova.cakecal.domain.model.User
+import com.nfedorova.cakecal.domain.utils.ChangeOfActivitySignIn
 
-class SignInActivity : AppCompatActivity() {
+class SignInActivity : AppCompatActivity(), ChangeOfActivitySignIn {
 
     private lateinit var binding: ActivitySignInBinding
     private val userRepository by lazy { UserRepositoryImpl(dataSource = UserDataSourceImpl(context = applicationContext)) }
@@ -35,7 +36,7 @@ class SignInActivity : AppCompatActivity() {
         val button = binding.button
         button.setOnClickListener {
             val user = User(name = name, email = email, password = pass)
-            registrationByEmailUseCase.execute(user = user)
+            registrationByEmailUseCase.execute(user = user, change = this)
         }
     }
 
@@ -43,5 +44,9 @@ class SignInActivity : AppCompatActivity() {
         val intent = Intent(this, LogInActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
         startActivity(intent)
+    }
+
+    override fun changeOfActivity() {
+        startActivity(Intent(this, LogInActivity::class.java))
     }
 }

@@ -12,8 +12,9 @@ import com.nfedorova.cakecal.data.repository.UserRepositoryImpl
 import com.nfedorova.cakecal.databinding.ActivityLogInBinding
 import com.nfedorova.cakecal.domain.usecase.CheckRegistrationByEmailUseCase
 import com.nfedorova.cakecal.domain.model.LoginUser
+import com.nfedorova.cakecal.domain.utils.ChangeOfActivityLogIn
 
-class LogInActivity : AppCompatActivity() {
+class LogInActivity : AppCompatActivity(), ChangeOfActivityLogIn {
 
     private lateinit var binding: ActivityLogInBinding
     private val userRepository by lazy { UserRepositoryImpl(dataSource = UserDataSourceImpl(context = applicationContext)) }
@@ -38,8 +39,12 @@ class LogInActivity : AppCompatActivity() {
 
             button.setOnClickListener{
                 val user = LoginUser(email = email, password = pass)
-                checkRegistrationByEmailUseCase.execute(user = user)
+                checkRegistrationByEmailUseCase.execute(user = user, change = this)
             }
         }
+    }
+
+    override fun changeOfActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
     }
 }

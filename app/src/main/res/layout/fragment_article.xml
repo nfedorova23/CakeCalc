@@ -14,7 +14,7 @@
 
     <TextView
         android:id="@+id/title_tv"
-        android:layout_width="387dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
@@ -28,8 +28,8 @@
 
     <TextView
         android:id="@+id/description_tv"
-        android:layout_width="384dp"
-        android:layout_height="52dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
@@ -41,25 +41,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_tv" />
 
+
     <TextView
         android:id="@+id/steps_tv"
-        android:layout_width="386dp"
-        android:layout_height="534dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.733"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_ingredients" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_ingredients"
-        android:layout_width="404dp"
+        android:layout_width="0dp"
         android:layout_height="235dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
@@ -74,13 +74,15 @@
         android:id="@+id/calculate"
         android:layout_width="284dp"
         android:layout_height="45dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="4dp"
         android:text="@string/calculate"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintStart_toStartOf="@+id/steps_tv"
+        app:layout_constraintTop_toBottomOf="@+id/steps_tv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

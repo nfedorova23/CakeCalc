@@ -7,21 +7,24 @@ import com.nfedorova.cakecal.data.datasource.mapper.mapToLoginDBO
 import com.nfedorova.cakecal.domain.model.LoginUser
 import com.nfedorova.cakecal.domain.model.User
 import com.nfedorova.cakecal.domain.repository.UserRepository
+import com.nfedorova.cakecal.domain.utils.ChangeOfActivityLogIn
+import com.nfedorova.cakecal.domain.utils.ChangeOfActivityLogOut
+import com.nfedorova.cakecal.domain.utils.ChangeOfActivitySignIn
 
 class UserRepositoryImpl(private val dataSource: UserDataSource) : UserRepository{
 
-    override fun addDBUserData(userDB: User) : Boolean {
+    override fun addDBUserData(userDB: User, change: ChangeOfActivitySignIn) : Boolean {
         val userDBO = mapToDBO(userDB)
-        return dataSource.addDB(userDBO = userDBO)
+        return dataSource.addDB(userDBO = userDBO, change = change)
     }
 
-    override fun checkUserData(user: LoginUser) : Boolean {
+    override fun checkUserData(user: LoginUser, change: ChangeOfActivityLogIn) : Boolean {
         val userDBO = mapToLoginDBO(user)
-        return dataSource.checkData(loginUserDBO = userDBO)
+        return dataSource.checkData(loginUserDBO = userDBO, change = change)
     }
 
-    override fun logOut(): Boolean {
-        return dataSource.logOut()
+    override fun logOut(change: ChangeOfActivityLogOut): Boolean {
+        return dataSource.logOut(change = change)
     }
 }
 

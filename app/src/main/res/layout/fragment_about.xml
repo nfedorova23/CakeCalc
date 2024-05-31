@@ -22,8 +22,9 @@
 
     <TextView
         android:id="@+id/tv_about"
-        android:layout_width="354dp"
+        android:layout_width="0dp"
         android:layout_height="652dp"
+        android:layout_margin="8dp"
         android:text="@string/about_app"
         android:textColor="@color/white"
         android:textSize="24sp"

@@ -4,10 +4,11 @@ import android.content.Context
 import android.widget.Toast
 import com.nfedorova.cakecal.domain.model.User
 import com.nfedorova.cakecal.domain.repository.UserRepository
+import com.nfedorova.cakecal.domain.utils.ChangeOfActivitySignIn
 
 class RegisterByEmailUseCase(private val userRepository: UserRepository, private val context: Context) {
 
-    fun execute(user: User) : Boolean {
+    fun execute(user: User, change: ChangeOfActivitySignIn) : Boolean {
         with(user) {
             if (name.text.isEmpty()) {
                 Toast.makeText(context, "Введите имя", Toast.LENGTH_SHORT).show()
@@ -28,6 +29,6 @@ class RegisterByEmailUseCase(private val userRepository: UserRepository, private
                 return false
             }
         }
-        return userRepository.addDBUserData(userDB = user)
+        return userRepository.addDBUserData(userDB = user, change = change)
     }
 }

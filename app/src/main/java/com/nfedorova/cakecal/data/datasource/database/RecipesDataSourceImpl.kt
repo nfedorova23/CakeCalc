@@ -1,6 +1,7 @@
 package com.nfedorova.cakecal.data.datasource.database
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -47,16 +48,18 @@ class RecipesDataSourceImpl(private val context: Context): RecipeDataSource {
         return true
     }
 
-    override fun addRecipeToSaved(data: TransferSaved): Boolean {
+    override fun addRecipeToSaved(data: TransferSaved, sp: SharedPreferences): Boolean {
         val savedList = mutableListOf<RecipeModelDBO>()
+        val id = sp.getString("UserId","" )
         Firebase.firestore.collection("saved_recipes")
+            .whereEqualTo("userId", id)
             .get()
             .addOnSuccessListener {
                 for (document in it){
                     val recipeId = document.id
                     val recipeTitle = document.getString("title")
                     val recipeDescription = document.getString("description")
-                    val recipe = RecipeModelDBO(recipeId,recipeTitle,recipeDescription)
+                    val recipe = RecipeModelDBO(recipeId,recipeTitle,recipeDescription, userId = null)
                     savedList.add(recipe)
                     data.transferData(mapToRecipeModel(savedList))
                 }
@@ -73,13 +76,33 @@ class RecipesDataSourceImpl(private val context: Context): RecipeDataSource {
                     val recipeId = document.id
                     val recipeTitle = document.getString("title")
                     val recipeDescription = document.getString("description")
-                    val recipe = RecipeModelDBO(recipeId,recipeTitle,recipeDescription)
+                    val recipe = RecipeModelDBO(recipeId,recipeTitle,recipeDescription, userId = null)
                     recipeList.add(recipe)
                     data.transferData(mapToRecipeModel(recipeList))
                 }
             }
         return true
     }
+    /*fun getAllRecipes(data: TransferRecipes,localID:List<String>): Boolean{
+        val recipeList = mutableListOf<RecipeModelDBO>()
+        val recipesRef = FirebaseFirestore.getInstance().collection("recipes")
+        recipesRef.get()
+            .addOnSuccessListener {
+                for (document in it){
+
+                    val recipeId = document.id
+
+                    if(!localID.contains(recipeId))continue
+                    val recipeTitle = document.getString("title")
+                    val recipeDescription = document.getString("description")
+                    val recipe = RecipeModelDBO(recipeId,recipeTitle,recipeDescription)
+                    recipeList.add(recipe)
+                    data.transferData(mapToRecipeModel(recipeList))
+                }
+            }
+        return true
+    }*/
+
 
     override fun getRecipeArticle(stringId: String, data: TransferArticle, model: ArticleDBO) : Boolean{
         val articleList = mutableListOf<RecipesDBO>()
