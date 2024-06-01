@@ -3,11 +3,11 @@ package com.nfedorova.cakecal.presentation.ui
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowInsetsController
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -30,11 +30,17 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences.edit().putString("KEY", "9").apply()
         navView = binding.bottomNavigationView
         navController = findNavController(R.id.fragmentContainerView)
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.recipes_menu, R.id.calculate_menu, R.id.about_menu))
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.recipes_menu, R.id.calculate_menu, R.id.about_menu
+            )
+        )
         val appBarConfigurationOne = AppBarConfiguration(navController.graph)
         setSupportActionBar(binding.toolbar)
-        binding.toolbar.setupWithNavController(navController = navController, configuration = appBarConfigurationOne)
+        binding.toolbar.setupWithNavController(
+            navController = navController,
+            configuration = appBarConfigurationOne
+        )
         navView.setupWithNavController(navController = navController)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -52,7 +58,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return item.onNavDestinationSelected(navController = navController) || super.onOptionsItemSelected(item)
+        return item.onNavDestinationSelected(navController = navController) || super.onOptionsItemSelected(
+            item
+        )
     }
 
     override fun onBackPressed() {}

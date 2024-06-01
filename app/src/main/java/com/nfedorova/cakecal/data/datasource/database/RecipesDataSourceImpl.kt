@@ -83,26 +83,6 @@ class RecipesDataSourceImpl(private val context: Context): RecipeDataSource {
             }
         return true
     }
-    /*fun getAllRecipes(data: TransferRecipes,localID:List<String>): Boolean{
-        val recipeList = mutableListOf<RecipeModelDBO>()
-        val recipesRef = FirebaseFirestore.getInstance().collection("recipes")
-        recipesRef.get()
-            .addOnSuccessListener {
-                for (document in it){
-
-                    val recipeId = document.id
-
-                    if(!localID.contains(recipeId))continue
-                    val recipeTitle = document.getString("title")
-                    val recipeDescription = document.getString("description")
-                    val recipe = RecipeModelDBO(recipeId,recipeTitle,recipeDescription)
-                    recipeList.add(recipe)
-                    data.transferData(mapToRecipeModel(recipeList))
-                }
-            }
-        return true
-    }*/
-
 
     override fun getRecipeArticle(stringId: String, data: TransferArticle, model: ArticleDBO) : Boolean{
         val articleList = mutableListOf<RecipesDBO>()

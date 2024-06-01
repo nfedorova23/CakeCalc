@@ -3,22 +3,27 @@ package com.nfedorova.cakecal.presentation.ui.register
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
-import com.nfedorova.cakecal.presentation.ui.MainActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.nfedorova.cakecal.data.datasource.database.UserDataSourceImpl
 import com.nfedorova.cakecal.data.repository.UserRepositoryImpl
 import com.nfedorova.cakecal.databinding.ActivityLogInBinding
-import com.nfedorova.cakecal.domain.usecase.CheckRegistrationByEmailUseCase
 import com.nfedorova.cakecal.domain.model.LoginUser
+import com.nfedorova.cakecal.domain.usecase.CheckRegistrationByEmailUseCase
 import com.nfedorova.cakecal.domain.utils.ChangeOfActivityLogIn
+import com.nfedorova.cakecal.presentation.ui.MainActivity
 
 class LogInActivity : AppCompatActivity(), ChangeOfActivityLogIn {
 
     private lateinit var binding: ActivityLogInBinding
     private val userRepository by lazy { UserRepositoryImpl(dataSource = UserDataSourceImpl(context = applicationContext)) }
-    private val checkRegistrationByEmailUseCase by lazy { CheckRegistrationByEmailUseCase(userRepository = userRepository) }
+    private val checkRegistrationByEmailUseCase by lazy {
+        CheckRegistrationByEmailUseCase(
+            userRepository = userRepository
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -37,7 +42,7 @@ class LogInActivity : AppCompatActivity(), ChangeOfActivityLogIn {
             val pass: TextView = binding.editTextTextPassword
             val button = binding.button
 
-            button.setOnClickListener{
+            button.setOnClickListener {
                 val user = LoginUser(email = email, password = pass)
                 checkRegistrationByEmailUseCase.execute(user = user, change = this)
             }

@@ -12,11 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.nfedorova.cakecal.R
-import com.nfedorova.cakecal.data.datasource.model.RecipeModelDBO
 import com.nfedorova.cakecal.domain.model.RecipeModel
 
 
-class SavedAdapter(private val recipes: MutableList<RecipeModel>):
+class SavedAdapter(private val recipes: MutableList<RecipeModel>) :
     RecyclerView.Adapter<SavedAdapter.SavedViewHolder>() {
 
     private val bundle: Bundle = Bundle()
@@ -39,7 +38,7 @@ class SavedAdapter(private val recipes: MutableList<RecipeModel>):
         }
         holder.itemView.findViewById<ImageButton>(R.id.imageButton).apply {
             this.setImageResource(R.drawable.baseline_favorite_24)
-            this.setOnClickListener{
+            this.setOnClickListener {
                 this.setImageResource(R.drawable.baseline_favorite_border_24)
                 Firebase.firestore.collection("saved_recipes").document(recipe.id)
                     .delete()
@@ -53,8 +52,8 @@ class SavedAdapter(private val recipes: MutableList<RecipeModel>):
 
     override fun getItemCount(): Int = recipes.size
 
-   inner class SavedViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
-       fun bind(recipe: RecipeModel) {
+    inner class SavedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(recipe: RecipeModel) {
             with(itemView) {
                 findViewById<TextView>(R.id.title_tv).text = recipe.title
                 findViewById<TextView>(R.id.description_tv).text =

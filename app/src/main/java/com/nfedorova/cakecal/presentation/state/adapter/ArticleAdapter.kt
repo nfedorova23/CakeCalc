@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nfedorova.cakecal.R
 import com.nfedorova.cakecal.domain.model.Ingredients
 
-class ArticleAdapter(private val ingredients: MutableList<Ingredients>):
-RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
+class ArticleAdapter(private val ingredients: MutableList<Ingredients>) :
+    RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
@@ -26,9 +26,9 @@ RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
 
     override fun getItemCount(): Int = ingredients.size
 
-    inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        fun bind(ingredients: Ingredients){
-            with(itemView){
+    inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(ingredients: Ingredients) {
+            with(itemView) {
                 findViewById<TextView>(R.id.tv_ingredients).text = ingredients.ingredient
                 findViewById<TextView>(R.id.tv_count).text = ingredients.count
             }

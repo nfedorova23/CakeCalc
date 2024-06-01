@@ -6,9 +6,12 @@ import com.nfedorova.cakecal.domain.model.User
 import com.nfedorova.cakecal.domain.repository.UserRepository
 import com.nfedorova.cakecal.domain.utils.ChangeOfActivitySignIn
 
-class RegisterByEmailUseCase(private val userRepository: UserRepository, private val context: Context) {
+class RegisterByEmailUseCase(
+    private val userRepository: UserRepository,
+    private val context: Context,
+) {
 
-    fun execute(user: User, change: ChangeOfActivitySignIn) : Boolean {
+    fun execute(user: User, change: ChangeOfActivitySignIn): Boolean {
         with(user) {
             if (name.text.isEmpty()) {
                 Toast.makeText(context, "Введите имя", Toast.LENGTH_SHORT).show()

@@ -2,17 +2,17 @@ package com.nfedorova.cakecal.presentation.ui.calculate
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.nfedorova.cakecal.R
 import com.nfedorova.cakecal.data.datasource.database.IngredientsDataSourceImpl
 import com.nfedorova.cakecal.data.repository.IngredientsRepositoryImpl
-import com.nfedorova.cakecal.domain.model.Ingredients
 import com.nfedorova.cakecal.databinding.FragmentCalculateBinding
+import com.nfedorova.cakecal.domain.model.Ingredients
 import com.nfedorova.cakecal.domain.usecase.GetIngredientsUseCase
 import com.nfedorova.cakecal.domain.utils.CalculatingImpl
 import com.nfedorova.cakecal.domain.utils.TransferIngredients
@@ -28,9 +28,17 @@ class CalculateFragment : Fragment(), TransferIngredients {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ArticleAdapter
     private var ingredientsList = arrayListOf<Ingredients>()
-    private val ingredientsRepository by lazy { context?.let { IngredientsDataSourceImpl() }
-       ?.let { IngredientsRepositoryImpl(ingredientsDataSource = it) } }
-    private val ingredientsUseCase by lazy { ingredientsRepository?.let { GetIngredientsUseCase(ingredientsRepository = it) } }
+    private val ingredientsRepository by lazy {
+        context?.let { IngredientsDataSourceImpl() }
+            ?.let { IngredientsRepositoryImpl(ingredientsDataSource = it) }
+    }
+    private val ingredientsUseCase by lazy {
+        ingredientsRepository?.let {
+            GetIngredientsUseCase(
+                ingredientsRepository = it
+            )
+        }
+    }
     private val calculating by lazy { CalculatingImpl() }
 
     override fun onCreateView(
@@ -52,11 +60,16 @@ class CalculateFragment : Fragment(), TransferIngredients {
         val button = binding.btnCalculate
         val showTableTV = binding.tvTable
 
-        val dH1TV = binding.tvDH1; val dH2TV = binding.tvDH2
-        val dH1ED = binding.editTextDH1; val dH2ED = binding.editTextDH2
-        val width1TV = binding.tvWidth1; val width2TV = binding.tvWidth2
-        val width1ED = binding.editTextWidth1; val width2ED = binding.editTextWidth2
-        val spinnerOne = binding.spinner; val spinnerTwo = binding.spinnerForm
+        val dH1TV = binding.tvDH1
+        val dH2TV = binding.tvDH2
+        val dH1ED = binding.editTextDH1
+        val dH2ED = binding.editTextDH2
+        val width1TV = binding.tvWidth1
+        val width2TV = binding.tvWidth2
+        val width1ED = binding.editTextWidth1
+        val width2ED = binding.editTextWidth2
+        val spinnerOne = binding.spinner
+        val spinnerTwo = binding.spinnerForm
 
         val textD = resources.getString(R.string.diameter)
         val textL = resources.getString(R.string.length)
@@ -78,16 +91,19 @@ class CalculateFragment : Fragment(), TransferIngredients {
                             invisible(tv = width1TV, ed = width1ED)
                             dH1TV.text = textD
                         }
+
                         "Rectangular" -> {
                             visible(tv = width1TV, ed = width1ED)
                             dH1TV.text = textL
                         }
+
                         "Square" -> {
                             invisible(tv = width1TV, ed = width1ED)
                             dH1TV.text = textL
                         }
                     }
                 }
+
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             }
@@ -105,16 +121,19 @@ class CalculateFragment : Fragment(), TransferIngredients {
                             invisible(tv = width2TV, ed = width2ED)
                             dH2TV.text = textD
                         }
+
                         "Rectangular" -> {
                             visible(tv = width2TV, ed = width2ED)
                             dH2TV.text = textL
                         }
+
                         "Square" -> {
                             invisible(tv = width2TV, ed = width2ED)
                             dH2TV.text = textL
                         }
                     }
                 }
+
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
@@ -137,11 +156,14 @@ class CalculateFragment : Fragment(), TransferIngredients {
                 wOne = widthOne, wTwo = widthTwo
             )
 
-           val roundRatio = String.format("%.1f", ratio).toDouble()
+            val roundRatio = String.format("%.1f", ratio).replace(",", ".").toDouble()
 
             for (i in 0 until ingredientsList.size) {
                 val l = ingredientsList[i]
-                val list = Ingredients(ingredient = l.ingredient, count = ((l.count?.toInt())?.times(roundRatio)).toString())
+                val list = Ingredients(
+                    ingredient = l.ingredient,
+                    count = ((l.count?.toInt())?.times(roundRatio)).toString()
+                )
                 ingredientsList[i] = list
                 adapter.notifyDataSetChanged()
             }
@@ -154,6 +176,7 @@ class CalculateFragment : Fragment(), TransferIngredients {
         adapter = ArticleAdapter(ingredients = ingredientsList)
         recyclerView.adapter = adapter
     }
+
     companion object {
         fun newInstance(bundle: Bundle) = CalculateFragment().apply {
             arguments = bundle
