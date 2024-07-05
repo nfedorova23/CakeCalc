@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_calculate" />
     <fragment
         android:id="@+id/articleFragment"
-        android:name="com.nfedorova.cakecal.presentation.ui.article.ArticleFragment"
+        android:name="com.nfedorova.cakecal.presentation.ui.recipes.ArticleFragment"
         android:label="Article"
         tools:layout="@layout/fragment_article" >
         <action
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/about_menu"
-        android:name="com.nfedorova.cakecal.presentation.ui.aboutapp.AboutFragment"
+        android:name="com.nfedorova.cakecal.presentation.ui.recipes.AboutFragment"
         android:label="About app"
         tools:layout="@layout/fragment_about" />
 </navigation>

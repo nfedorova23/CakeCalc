@@ -13,7 +13,6 @@ import com.nfedorova.cakecal.domain.model.RecipeModel
 import com.nfedorova.cakecal.domain.model.Recipes
 import com.nfedorova.cakecal.domain.model.User
 
-
  fun mapToDBO(userDB: User) : UserDBO {
     return UserDBO(name = userDB.name, email = userDB.email, password = userDB.password )
 } fun mapToLoginDBO(user: LoginUser): LoginUserDBO {

@@ -60,7 +60,5 @@ class SavedAdapter(private val recipes: MutableList<RecipeModel>) :
                     recipe.description
             }
         }
-
-
     }
 }

@@ -10,7 +10,6 @@ class RegisterByEmailUseCase(
     private val userRepository: UserRepository,
     private val context: Context,
 ) {
-
     fun execute(user: User, change: ChangeOfActivitySignIn): Boolean {
         with(user) {
             if (name.text.isEmpty()) {

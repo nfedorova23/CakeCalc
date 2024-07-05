@@ -5,6 +5,4 @@ data class RecipeModel(
     val title: String?,
     val description: String?,
     var userId: String?
-
-
 )

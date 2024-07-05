@@ -1,10 +1,11 @@
-package com.nfedorova.cakecal.presentation.ui.article
+package com.nfedorova.cakecal.presentation.ui.recipes
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.nfedorova.cakecal.R
@@ -17,6 +18,10 @@ import com.nfedorova.cakecal.domain.usecase.GetRecipesArticleUseCase
 import com.nfedorova.cakecal.domain.utils.TransferArticle
 import com.nfedorova.cakecal.presentation.state.adapter.ArticleAdapter
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
+import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.AboutRecipesViewModel
+import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.AboutRecipesViewModelFactory
+import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.ArticleViewModel
+import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.ArticleViewModelFactory
 
 
 class ArticleFragment : Fragment(), TransferArticle {
@@ -25,15 +30,7 @@ class ArticleFragment : Fragment(), TransferArticle {
     private lateinit var recyclerView: RecyclerView
     private var adapter: ArticleAdapter = ArticleAdapter(ingredients = mutableListOf())
     private var ingredientsList = mutableListOf<Ingredients>()
-    private val recipesRepository by lazy {
-        context?.let { RecipesDataSourceImpl(context = it) }
-            ?.let { RecipesRepositoryImpl(recipeDataSource = it) }
-    }
-    private val articleUseCase by lazy {
-        recipesRepository?.let {
-            GetRecipesArticleUseCase(recipesRepository = it)
-        }
-    }
+    private lateinit var viewModel: ArticleViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,10 +40,9 @@ class ArticleFragment : Fragment(), TransferArticle {
         adapter = ArticleAdapter(ingredients = ingredientsList)
         recyclerView = binding.rvIngredients
         val calculate = binding.calculate
-
-        calculate.setOnClickListener {
-            it.findNavController()
-                .navigate(R.id.action_articleFragment_to_calculateFragment, arguments)
+        viewModel = ViewModelProvider(this, ArticleViewModelFactory(context))[ArticleViewModel::class.java]
+        calculate.setOnClickListener {view ->
+            arguments?.let { viewModel.calculate(view = view, arguments = it) }
         }
         return binding.root
     }
@@ -58,9 +54,7 @@ class ArticleFragment : Fragment(), TransferArticle {
         val steps = binding.stepsTv
         recyclerView.adapter = adapter
         context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
-        val stringId = arguments?.getString("id") ?: return
-        val article = Article(title = title, description = description, steps = steps)
-        articleUseCase?.execute(stringId = stringId, data = this, model = article)
+        arguments?.let { viewModel.getArticle(arguments = it, title = title, description = description, steps = steps, data = this) }
     }
 
     override fun transferData(list: MutableList<Ingredients>) {

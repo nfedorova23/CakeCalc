@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.nfedorova.cakecal.R
 import com.nfedorova.cakecal.data.datasource.database.IngredientsDataSourceImpl
 import com.nfedorova.cakecal.data.repository.IngredientsRepositoryImpl
 import com.nfedorova.cakecal.databinding.FragmentCalculateBinding
+import com.nfedorova.cakecal.domain.model.Calculate
 import com.nfedorova.cakecal.domain.model.Ingredients
 import com.nfedorova.cakecal.domain.usecase.GetIngredientsUseCase
 import com.nfedorova.cakecal.domain.utils.CalculatingImpl
@@ -21,6 +23,10 @@ import com.nfedorova.cakecal.presentation.state.utils.invisible
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
 import com.nfedorova.cakecal.presentation.state.utils.validate
 import com.nfedorova.cakecal.presentation.state.utils.visible
+import com.nfedorova.cakecal.presentation.state.viewmodel.calculate.CalculateViewModel
+import com.nfedorova.cakecal.presentation.state.viewmodel.calculate.CalculateViewModelFactory
+import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.ArticleViewModel
+import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.ArticleViewModelFactory
 
 class CalculateFragment : Fragment(), TransferIngredients {
 
@@ -28,18 +34,8 @@ class CalculateFragment : Fragment(), TransferIngredients {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ArticleAdapter
     private var ingredientsList = arrayListOf<Ingredients>()
-    private val ingredientsRepository by lazy {
-        context?.let { IngredientsDataSourceImpl() }
-            ?.let { IngredientsRepositoryImpl(ingredientsDataSource = it) }
-    }
-    private val ingredientsUseCase by lazy {
-        ingredientsRepository?.let {
-            GetIngredientsUseCase(
-                ingredientsRepository = it
-            )
-        }
-    }
-    private val calculating by lazy { CalculatingImpl() }
+    private lateinit var viewModel: CalculateViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +46,7 @@ class CalculateFragment : Fragment(), TransferIngredients {
         adapter = ArticleAdapter(ingredientsList)
         recyclerView.adapter = adapter
         context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
+        viewModel = ViewModelProvider(this, CalculateViewModelFactory(context))[CalculateViewModel::class.java]
         return binding.root
     }
 
@@ -75,7 +72,7 @@ class CalculateFragment : Fragment(), TransferIngredients {
         val textL = resources.getString(R.string.length)
 
         showTableTV.setOnClickListener {
-            context?.let { it1 -> calculating.showTable(context = it1) }
+            viewModel.showTable(it.context)
         }
 
         spinnerOne.onItemSelectedListener =
@@ -137,39 +134,15 @@ class CalculateFragment : Fragment(), TransferIngredients {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
-        val stringId = arguments?.getString("id") ?: return
-        ingredientsUseCase?.execute(stringId = stringId, data = this)
-
+        arguments?.let { viewModel.getIngredients(arguments = it, data = this) }
         button.setOnClickListener {
-
-            val ratio: Double
-
-            val dlOneED = validate(string = dH1ED.text.toString())
-            val dlTwoED = validate(string = dH2ED.text.toString())
-            val widthOne = validate(string = width1ED.text.toString())
-            val widthTwo = validate(string = width2ED.text.toString())
-
-            ratio = calculating.getRatio(
-                itemOne = spinnerOne.selectedItem.toString(),
-                itemTwo = spinnerTwo.selectedItem.toString(),
-                dlOne = dlOneED, dlTwo = dlTwoED,
-                wOne = widthOne, wTwo = widthTwo
-            )
-
-            val roundRatio = String.format("%.1f", ratio).replace(",", ".").toDouble()
-
-            for (i in 0 until ingredientsList.size) {
-                val l = ingredientsList[i]
-                val list = Ingredients(
-                    ingredient = l.ingredient,
-                    count = ((l.count?.toInt())?.times(roundRatio)).toString()
-                )
-                ingredientsList[i] = list
-                adapter.notifyDataSetChanged()
-            }
-            button.isEnabled = false
+            val calculate = Calculate(dH1ED = dH1ED, dH2ED = dH2ED, width1ED = width1ED, width2ED = width2ED,
+                spinnerOne = spinnerOne, spinnerTwo = spinnerTwo,
+                ingredientsList = ingredientsList, adapter = adapter, button = button)
+            viewModel.calculate(calculate)
         }
     }
+
 
     override fun transferData(list: ArrayList<Ingredients>) {
         ingredientsList = list

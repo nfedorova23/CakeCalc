@@ -1,11 +1,13 @@
 package com.nfedorova.cakecal.presentation.ui
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.WindowInsetsController
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -64,4 +66,5 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {}
+
 }

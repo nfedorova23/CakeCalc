@@ -12,5 +12,4 @@ interface UserDataSource {
     fun addDB(userDBO: UserDBO, change: ChangeOfActivitySignIn) : Boolean
     fun checkData(loginUserDBO: LoginUserDBO, change: ChangeOfActivityLogIn) : Boolean
     fun logOut(change: ChangeOfActivityLogOut): Boolean
-
 }

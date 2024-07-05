@@ -1,4 +1,4 @@
-package com.nfedorova.cakecal.presentation.ui.aboutapp
+package com.nfedorova.cakecal.presentation.ui.recipes
 
 import android.content.Context
 import android.content.Intent
@@ -7,20 +7,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.nfedorova.cakecal.data.datasource.database.UserDataSourceImpl
 import com.nfedorova.cakecal.data.repository.UserRepositoryImpl
 import com.nfedorova.cakecal.databinding.FragmentAboutBinding
 import com.nfedorova.cakecal.domain.usecase.LogoutUseCase
 import com.nfedorova.cakecal.domain.utils.ChangeOfActivityLogOut
+import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.AboutRecipesViewModel
+import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.AboutRecipesViewModelFactory
+import com.nfedorova.cakecal.presentation.state.viewmodel.saved.SavedViewModel
+import com.nfedorova.cakecal.presentation.state.viewmodel.saved.SavedViewModelFactory
 import com.nfedorova.cakecal.presentation.ui.register.LogInActivity
 
 
 class AboutFragment : Fragment(), ChangeOfActivityLogOut {
 
     private lateinit var binding: FragmentAboutBinding
-    private val userRepository by lazy {
-        context?.let { UserDataSourceImpl(context = it) }?.let { UserRepositoryImpl(dataSource = it) } }
-    private val logoutUseCase by lazy { userRepository?.let { LogoutUseCase(userRepository = it) } }
+    private lateinit var viewModel : AboutRecipesViewModel
 
 
     override fun onCreateView(
@@ -28,6 +32,7 @@ class AboutFragment : Fragment(), ChangeOfActivityLogOut {
         savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentAboutBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this, AboutRecipesViewModelFactory(context))[AboutRecipesViewModel::class.java]
         return binding.root
     }
 
@@ -36,7 +41,7 @@ class AboutFragment : Fragment(), ChangeOfActivityLogOut {
 
         val logOut = binding.exitButton
         logOut.setOnClickListener {
-            logoutUseCase?.execute(this)
+            viewModel.logOut(this)
         }
     }
 

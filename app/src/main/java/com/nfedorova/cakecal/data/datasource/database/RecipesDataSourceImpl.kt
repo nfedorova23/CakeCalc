@@ -17,7 +17,6 @@ import com.nfedorova.cakecal.domain.utils.TransferArticle
 import com.nfedorova.cakecal.domain.utils.TransferRecipes
 import com.nfedorova.cakecal.domain.utils.TransferSaved
 
-
 class RecipesDataSourceImpl(private val context: Context): RecipeDataSource {
     override fun addRecipe(recipeDBO: RecipesDBO, ingredientsList: MutableList<IngredientsDBO>): Boolean {
         val recipeCollection = FirebaseFirestore.getInstance().collection("recipes")

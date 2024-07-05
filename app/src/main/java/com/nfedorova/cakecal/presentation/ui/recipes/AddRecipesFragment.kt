@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.nfedorova.cakecal.R
@@ -17,6 +19,10 @@ import com.nfedorova.cakecal.domain.model.Recipes
 import com.nfedorova.cakecal.domain.usecase.AddNewRecipeUseCase
 import com.nfedorova.cakecal.presentation.state.adapter.IngredientsAdapter
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
+import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.AddRecipesViewModel
+import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.AddRecipesViewModelFactory
+import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.RecipesViewModel
+import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.RecipesViewModelFactory
 
 class AddRecipesFragment : Fragment() {
 
@@ -24,20 +30,7 @@ class AddRecipesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var adapter: IngredientsAdapter = IngredientsAdapter(ingredients = mutableListOf())
     private var ingredientsList = mutableListOf<Ingredients>()
-    private val recipesRepository by lazy {
-        context?.let { RecipesDataSourceImpl(context = it) }
-            ?.let { RecipesRepositoryImpl(recipeDataSource = it) }
-    }
-    private val addNewRecipeUseCase by lazy {
-        recipesRepository?.let {
-            context?.let { it1 ->
-                AddNewRecipeUseCase(
-                    recipesRepository = it,
-                    context = it1
-                )
-            }
-        }
-    }
+    private lateinit var viewModel: AddRecipesViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +42,7 @@ class AddRecipesFragment : Fragment() {
         adapter = IngredientsAdapter(ingredients = ingredientsList)
         recyclerView.adapter = adapter
         context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
-
+        viewModel = ViewModelProvider(this, AddRecipesViewModelFactory(context))[AddRecipesViewModel::class.java]
         val title: TextView = binding.titleEditText
         val description: TextView = binding.descriptionEditText
         val steps: TextView = binding.stepsEditText
@@ -66,8 +59,23 @@ class AddRecipesFragment : Fragment() {
                 ingredients = ingredientsList,
                 steps = steps.text.toString()
             )
-            addNewRecipeUseCase?.execute(recipe = recipe, ingredientsList = ingredientsList)
-            it.findNavController().navigate(R.id.action_addRecipesFragment_to_recipes_menu)
+            if (title.text.isNullOrEmpty()) {
+                Toast.makeText(context, "Введите название рецепта", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (description.text.isNullOrEmpty()) {
+                Toast.makeText(context, "Введите описание рецепта", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (ingredientsList.isEmpty()) {
+                Toast.makeText(context, "Введите ингредиенты", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (steps.text.isNullOrEmpty()) {
+                Toast.makeText(context, "Введите шаги приготовления", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            viewModel.addRecipes(recipe = recipe, ingredientsList = ingredientsList, view = it)
         }
         return binding.root
     }

@@ -5,29 +5,26 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.nfedorova.cakecal.data.datasource.database.UserDataSourceImpl
-import com.nfedorova.cakecal.data.repository.UserRepositoryImpl
+import androidx.lifecycle.ViewModelProvider
 import com.nfedorova.cakecal.databinding.ActivitySignInBinding
 import com.nfedorova.cakecal.domain.model.User
-import com.nfedorova.cakecal.domain.usecase.RegisterByEmailUseCase
 import com.nfedorova.cakecal.domain.utils.ChangeOfActivitySignIn
+import com.nfedorova.cakecal.presentation.state.viewmodel.signin.SignInViewModel
+import com.nfedorova.cakecal.presentation.state.viewmodel.signin.SignInViewModelFactory
 
 class SignInActivity : AppCompatActivity(), ChangeOfActivitySignIn {
 
     private lateinit var binding: ActivitySignInBinding
-    private val userRepository by lazy { UserRepositoryImpl(dataSource = UserDataSourceImpl(context = applicationContext)) }
-    private val registrationByEmailUseCase by lazy {
-        RegisterByEmailUseCase(
-            userRepository = userRepository,
-            context = applicationContext
-        )
-    }
+    private lateinit var viewModel: SignInViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelProvider(this, SignInViewModelFactory(this))[SignInViewModel::class.java]
+
         val name: TextView = binding.editTextName
         val email: TextView = binding.editTextTextEmailAddress
         val pass: TextView = binding.editTextTextPassword
@@ -39,8 +36,7 @@ class SignInActivity : AppCompatActivity(), ChangeOfActivitySignIn {
 
         val button = binding.button
         button.setOnClickListener {
-            val user = User(name = name, email = email, password = pass)
-            registrationByEmailUseCase.execute(user = user, change = this)
+            viewModel.register(name = name, email = email, pass = pass, change = this)
         }
     }
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.nfedorova.cakecal.data.datasource.database.RecipesDataSourceImpl
 import com.nfedorova.cakecal.data.repository.RecipesRepositoryImpl
@@ -15,6 +16,10 @@ import com.nfedorova.cakecal.domain.usecase.AddRecipeToSavedUseCase
 import com.nfedorova.cakecal.domain.utils.TransferSaved
 import com.nfedorova.cakecal.presentation.state.adapter.SavedAdapter
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
+import com.nfedorova.cakecal.presentation.state.viewmodel.login.LogInViewModel
+import com.nfedorova.cakecal.presentation.state.viewmodel.login.LogInViewModelFactory
+import com.nfedorova.cakecal.presentation.state.viewmodel.saved.SavedViewModel
+import com.nfedorova.cakecal.presentation.state.viewmodel.saved.SavedViewModelFactory
 
 
 class SavedFragment : Fragment(), TransferSaved {
@@ -23,16 +28,8 @@ class SavedFragment : Fragment(), TransferSaved {
     private lateinit var recyclerView: RecyclerView
     private var adapter: SavedAdapter = SavedAdapter(recipes = mutableListOf())
     private var recipesSavedList = mutableListOf<RecipeModel>()
-    private val recipesRepository by lazy {
-        context?.let { RecipesDataSourceImpl(context = it) }
-            ?.let { RecipesRepositoryImpl(recipeDataSource = it) }
-    }
-    private val addRecipeToSavedUseCase by lazy {
-        recipesRepository?.let {
-            AddRecipeToSavedUseCase(recipesRepository = it)
-        }
+    private lateinit var viewModel: SavedViewModel
 
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,9 +40,10 @@ class SavedFragment : Fragment(), TransferSaved {
         adapter = SavedAdapter(recipes = recipesSavedList)
         recyclerView.adapter = adapter
         context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
+        viewModel = ViewModelProvider(this, SavedViewModelFactory(context))[SavedViewModel::class.java]
         val sharedPreferences = activity?.getSharedPreferences("UserId", Context.MODE_PRIVATE)
         if (sharedPreferences != null) {
-            addRecipeToSavedUseCase?.execute(data = this, sp = sharedPreferences)
+            viewModel.addRecipesToSaved(this, sharedPreferences)
         }
         return binding.root
     }
