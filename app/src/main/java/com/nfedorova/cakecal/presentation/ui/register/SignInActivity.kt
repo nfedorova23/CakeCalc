@@ -5,25 +5,22 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.nfedorova.cakecal.databinding.ActivitySignInBinding
-import com.nfedorova.cakecal.domain.model.User
 import com.nfedorova.cakecal.domain.utils.ChangeOfActivitySignIn
 import com.nfedorova.cakecal.presentation.state.viewmodel.signin.SignInViewModel
-import com.nfedorova.cakecal.presentation.state.viewmodel.signin.SignInViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class SignInActivity : AppCompatActivity(), ChangeOfActivitySignIn {
 
     private lateinit var binding: ActivitySignInBinding
-    private lateinit var viewModel: SignInViewModel
+    private val viewModel by viewModel<SignInViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(this, SignInViewModelFactory(this))[SignInViewModel::class.java]
 
         val name: TextView = binding.editTextName
         val email: TextView = binding.editTextTextEmailAddress

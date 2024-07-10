@@ -23,6 +23,7 @@ import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.ArticleViewMod
 import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.ArticleViewModelFactory
 import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.RecipesViewModel
 import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.RecipesViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RecipesFragment : Fragment(), TransferRecipes {
 
@@ -30,7 +31,7 @@ class RecipesFragment : Fragment(), TransferRecipes {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecipesAdapter
     private var recipesList = mutableListOf<RecipeModel>()
-    private lateinit var viewModel: RecipesViewModel
+    private val viewModel by viewModel<RecipesViewModel>()
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
@@ -39,7 +40,6 @@ class RecipesFragment : Fragment(), TransferRecipes {
     ): View? {
         binding = FragmentRecipesBinding.inflate(inflater)
         sharedPreferences = activity?.getSharedPreferences("UserId", Context.MODE_PRIVATE)!!
-        viewModel = ViewModelProvider(this, RecipesViewModelFactory(context))[RecipesViewModel::class.java]
         return binding.root
     }
 

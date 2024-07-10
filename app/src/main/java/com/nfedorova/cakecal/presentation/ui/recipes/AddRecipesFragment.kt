@@ -23,6 +23,7 @@ import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.AddRecipesView
 import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.AddRecipesViewModelFactory
 import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.RecipesViewModel
 import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.RecipesViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddRecipesFragment : Fragment() {
 
@@ -30,7 +31,7 @@ class AddRecipesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var adapter: IngredientsAdapter = IngredientsAdapter(ingredients = mutableListOf())
     private var ingredientsList = mutableListOf<Ingredients>()
-    private lateinit var viewModel: AddRecipesViewModel
+    private val viewModel by viewModel<AddRecipesViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +43,6 @@ class AddRecipesFragment : Fragment() {
         adapter = IngredientsAdapter(ingredients = ingredientsList)
         recyclerView.adapter = adapter
         context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
-        viewModel = ViewModelProvider(this, AddRecipesViewModelFactory(context))[AddRecipesViewModel::class.java]
         val title: TextView = binding.titleEditText
         val description: TextView = binding.descriptionEditText
         val steps: TextView = binding.stepsEditText

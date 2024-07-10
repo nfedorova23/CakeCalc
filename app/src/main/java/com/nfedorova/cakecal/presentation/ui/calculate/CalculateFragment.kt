@@ -27,6 +27,7 @@ import com.nfedorova.cakecal.presentation.state.viewmodel.calculate.CalculateVie
 import com.nfedorova.cakecal.presentation.state.viewmodel.calculate.CalculateViewModelFactory
 import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.ArticleViewModel
 import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.ArticleViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CalculateFragment : Fragment(), TransferIngredients {
 
@@ -34,7 +35,7 @@ class CalculateFragment : Fragment(), TransferIngredients {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ArticleAdapter
     private var ingredientsList = arrayListOf<Ingredients>()
-    private lateinit var viewModel: CalculateViewModel
+    private val viewModel by viewModel<CalculateViewModel>()
 
 
     override fun onCreateView(
@@ -46,7 +47,6 @@ class CalculateFragment : Fragment(), TransferIngredients {
         adapter = ArticleAdapter(ingredientsList)
         recyclerView.adapter = adapter
         context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
-        viewModel = ViewModelProvider(this, CalculateViewModelFactory(context))[CalculateViewModel::class.java]
         return binding.root
     }
 

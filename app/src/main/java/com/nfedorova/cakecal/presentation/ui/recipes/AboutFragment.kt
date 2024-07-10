@@ -19,12 +19,13 @@ import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.AboutRecipesVi
 import com.nfedorova.cakecal.presentation.state.viewmodel.saved.SavedViewModel
 import com.nfedorova.cakecal.presentation.state.viewmodel.saved.SavedViewModelFactory
 import com.nfedorova.cakecal.presentation.ui.register.LogInActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class AboutFragment : Fragment(), ChangeOfActivityLogOut {
 
     private lateinit var binding: FragmentAboutBinding
-    private lateinit var viewModel : AboutRecipesViewModel
+    private val viewModel by viewModel<AboutRecipesViewModel>()
 
 
     override fun onCreateView(
@@ -32,7 +33,6 @@ class AboutFragment : Fragment(), ChangeOfActivityLogOut {
         savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentAboutBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this, AboutRecipesViewModelFactory(context))[AboutRecipesViewModel::class.java]
         return binding.root
     }
 

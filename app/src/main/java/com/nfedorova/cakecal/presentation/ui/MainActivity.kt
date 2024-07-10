@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
                 WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
             )
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
