@@ -7,17 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.nfedorova.cakecal.data.datasource.database.UserDataSourceImpl
-import com.nfedorova.cakecal.data.repository.UserRepositoryImpl
 import com.nfedorova.cakecal.databinding.FragmentAboutBinding
-import com.nfedorova.cakecal.domain.usecase.LogoutUseCase
 import com.nfedorova.cakecal.domain.utils.ChangeOfActivityLogOut
 import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.AboutRecipesViewModel
-import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.AboutRecipesViewModelFactory
-import com.nfedorova.cakecal.presentation.state.viewmodel.saved.SavedViewModel
-import com.nfedorova.cakecal.presentation.state.viewmodel.saved.SavedViewModelFactory
 import com.nfedorova.cakecal.presentation.ui.register.LogInActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

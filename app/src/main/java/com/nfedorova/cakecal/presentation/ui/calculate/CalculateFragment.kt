@@ -7,26 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.nfedorova.cakecal.R
-import com.nfedorova.cakecal.data.datasource.database.IngredientsDataSourceImpl
-import com.nfedorova.cakecal.data.repository.IngredientsRepositoryImpl
 import com.nfedorova.cakecal.databinding.FragmentCalculateBinding
 import com.nfedorova.cakecal.domain.model.Calculate
 import com.nfedorova.cakecal.domain.model.Ingredients
-import com.nfedorova.cakecal.domain.usecase.GetIngredientsUseCase
-import com.nfedorova.cakecal.domain.utils.CalculatingImpl
 import com.nfedorova.cakecal.domain.utils.TransferIngredients
 import com.nfedorova.cakecal.presentation.state.adapter.ArticleAdapter
 import com.nfedorova.cakecal.presentation.state.utils.invisible
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
-import com.nfedorova.cakecal.presentation.state.utils.validate
 import com.nfedorova.cakecal.presentation.state.utils.visible
 import com.nfedorova.cakecal.presentation.state.viewmodel.calculate.CalculateViewModel
-import com.nfedorova.cakecal.presentation.state.viewmodel.calculate.CalculateViewModelFactory
-import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.ArticleViewModel
-import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.ArticleViewModelFactory
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CalculateFragment : Fragment(), TransferIngredients {

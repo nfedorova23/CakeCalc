@@ -7,22 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.nfedorova.cakecal.R
-import com.nfedorova.cakecal.data.datasource.database.RecipesDataSourceImpl
-import com.nfedorova.cakecal.data.repository.RecipesRepositoryImpl
 import com.nfedorova.cakecal.databinding.FragmentRecipesBinding
 import com.nfedorova.cakecal.domain.model.RecipeModel
-import com.nfedorova.cakecal.domain.usecase.GetRecipesUseCase
 import com.nfedorova.cakecal.domain.utils.TransferRecipes
 import com.nfedorova.cakecal.presentation.state.adapter.RecipesAdapter
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
-import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.ArticleViewModel
-import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.ArticleViewModelFactory
 import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.RecipesViewModel
-import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.RecipesViewModelFactory
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RecipesFragment : Fragment(), TransferRecipes {

@@ -6,11 +6,9 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.nfedorova.cakecal.databinding.ActivityLogInBinding
 import com.nfedorova.cakecal.domain.utils.ChangeOfActivityLogIn
 import com.nfedorova.cakecal.presentation.state.viewmodel.login.LogInViewModel
-import com.nfedorova.cakecal.presentation.state.viewmodel.login.LogInViewModelFactory
 import com.nfedorova.cakecal.presentation.ui.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

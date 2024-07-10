@@ -77,6 +77,4 @@ dependencies {
     implementation("io.insert-koin:koin-core:3.2.0")
     implementation ("io.insert-koin:koin-android:3.2.0")
 
-    //implementation ("org.koin:koin-android-scope:3.1.2")
-
 }
