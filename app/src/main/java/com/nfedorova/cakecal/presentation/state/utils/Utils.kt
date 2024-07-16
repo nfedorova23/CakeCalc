@@ -29,9 +29,10 @@ fun invisible(tv: TextView, ed: EditText){
     ed.visibility = View.GONE
 }
 
-fun validate(string: String) : Int {
-    val stringInt: Int = if (string.isEmpty()) 1
-    else string.toInt()
+fun EditText.validate() : Int {
+    val edStr = editableText.toString()
+    val stringInt: Int = if (edStr.isEmpty()) 1
+    else edStr.toInt()
     if (stringInt == 0) return 1
     return stringInt
 }

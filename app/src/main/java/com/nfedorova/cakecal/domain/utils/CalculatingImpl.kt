@@ -8,7 +8,8 @@ import com.nfedorova.cakecal.R
 import com.nfedorova.cakecal.domain.repository.Calculating
 
 class CalculatingImpl : Calculating {
-    override fun getRatio(
+
+    override suspend fun getRatio(
         itemOne: String, itemTwo: String, dlOne: Int,
         dlTwo: Int, wOne: Int, wTwo: Int,
     ): Double {
@@ -39,7 +40,7 @@ class CalculatingImpl : Calculating {
         return ratio
     }
 
-    override fun showTable(context: Context): Boolean {
+    override suspend fun showTable(context: Context): Boolean {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.show_table_dialog, null)
         val imageView = dialogView.findViewById<ImageView>(R.id.iv_table)
         imageView.setImageResource(R.drawable.table)

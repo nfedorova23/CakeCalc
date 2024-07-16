@@ -18,7 +18,8 @@ import com.nfedorova.cakecal.domain.utils.TransferRecipes
 import com.nfedorova.cakecal.domain.utils.TransferSaved
 
 class RecipesDataSourceImpl(private val context: Context): RecipeDataSource {
-    override fun addRecipe(recipeDBO: RecipesDBO, ingredientsList: MutableList<IngredientsDBO>): Boolean {
+
+    override suspend fun addRecipe(recipeDBO: RecipesDBO, ingredientsList: MutableList<IngredientsDBO>): Boolean {
         val recipeCollection = FirebaseFirestore.getInstance().collection("recipes")
         val recipeData = hashMapOf(
             "title" to recipeDBO.title,
@@ -47,7 +48,7 @@ class RecipesDataSourceImpl(private val context: Context): RecipeDataSource {
         return true
     }
 
-    override fun addRecipeToSaved(data: TransferSaved, sp: SharedPreferences): Boolean {
+    override suspend fun addRecipeToSaved(data: TransferSaved, sp: SharedPreferences): Boolean {
         val savedList = mutableListOf<RecipeModelDBO>()
         val id = sp.getString("UserId","" )
         Firebase.firestore.collection("saved_recipes")
@@ -66,7 +67,7 @@ class RecipesDataSourceImpl(private val context: Context): RecipeDataSource {
         return true
     }
 
-    override fun getAllRecipes(data: TransferRecipes): Boolean{
+    override suspend fun getAllRecipes(data: TransferRecipes): Boolean{
         val recipeList = mutableListOf<RecipeModelDBO>()
         val recipesRef = FirebaseFirestore.getInstance().collection("recipes")
         recipesRef.get()
@@ -83,7 +84,7 @@ class RecipesDataSourceImpl(private val context: Context): RecipeDataSource {
         return true
     }
 
-    override fun getRecipeArticle(stringId: String, data: TransferArticle, model: ArticleDBO) : Boolean{
+    override suspend fun getRecipeArticle(stringId: String, data: TransferArticle, model: ArticleDBO) : Boolean{
         val articleList = mutableListOf<RecipesDBO>()
         val recipesRef = FirebaseFirestore.getInstance().collection("recipes")
         recipesRef.document(stringId)

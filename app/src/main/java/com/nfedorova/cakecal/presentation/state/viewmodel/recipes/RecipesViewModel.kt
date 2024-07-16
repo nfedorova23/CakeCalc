@@ -2,12 +2,14 @@ package com.nfedorova.cakecal.presentation.state.viewmodel.recipes
 
 import android.view.View
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.nfedorova.cakecal.R
 import com.nfedorova.cakecal.domain.usecase.GetRecipesUseCase
 import com.nfedorova.cakecal.domain.utils.TransferRecipes
+import kotlinx.coroutines.launch
 
 class RecipesViewModel(
     private val getRecipesUseCase: GetRecipesUseCase
@@ -26,11 +28,13 @@ class RecipesViewModel(
         })
     }
 
-    fun getRecipes(data: TransferRecipes){
-        getRecipesUseCase.execute(data = data)
+    fun getRecipes(data: TransferRecipes) {
+        viewModelScope.launch {
+            getRecipesUseCase.execute(data = data)
+        }
     }
 
-    fun addRecipes(addFAB: FloatingActionButton, view: View){
+    fun addRecipes(view: View){
         view.findNavController().navigate(R.id.action_recipes_menu_to_addRecipesFragment)
     }
 }

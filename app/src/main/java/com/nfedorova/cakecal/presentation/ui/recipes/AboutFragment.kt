@@ -11,6 +11,9 @@ import com.nfedorova.cakecal.databinding.FragmentAboutBinding
 import com.nfedorova.cakecal.domain.utils.ChangeOfActivityLogOut
 import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.AboutRecipesViewModel
 import com.nfedorova.cakecal.presentation.ui.register.LogInActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -32,8 +35,10 @@ class AboutFragment : Fragment(), ChangeOfActivityLogOut {
         super.onViewCreated(view, savedInstanceState)
 
         val logOut = binding.exitButton
-        logOut.setOnClickListener {
-            viewModel.logOut(this)
+        CoroutineScope(Dispatchers.IO).launch {
+            logOut.setOnClickListener {
+                viewModel.logOut(this@AboutFragment)
+            }
         }
     }
 

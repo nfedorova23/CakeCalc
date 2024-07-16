@@ -8,7 +8,7 @@ import com.nfedorova.cakecal.domain.utils.ChangeOfActivitySignIn
 
 interface UserRepository {
 
-    fun addDBUserData(userDB: User, change: ChangeOfActivitySignIn) : Boolean
-    fun checkUserData(user: LoginUser, change: ChangeOfActivityLogIn) : Boolean
-    fun logOut(change: ChangeOfActivityLogOut): Boolean
+    suspend fun addDBUserData(userDB: User, change: ChangeOfActivitySignIn) : Boolean
+    suspend fun checkUserData(user: LoginUser, change: ChangeOfActivityLogIn) : Boolean
+    suspend fun logOut(change: ChangeOfActivityLogOut): Boolean
 }

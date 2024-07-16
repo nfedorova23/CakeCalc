@@ -17,21 +17,21 @@ import com.nfedorova.cakecal.domain.utils.TransferRecipes
 import com.nfedorova.cakecal.domain.utils.TransferSaved
 
 class RecipesRepositoryImpl(private val recipeDataSource: RecipeDataSource): RecipesRepository {
-    override fun addRecipe(recipe: Recipes, ingredientsList: MutableList<Ingredients>): Boolean? {
+    override suspend fun addRecipe(recipe: Recipes, ingredientsList: MutableList<Ingredients>): Boolean? {
         val recipeDBO = mapToRecipeDBO(recipe, ingredientsList)
         val ingredientsDBO = mapToIngredientsDBO(ingredientsList)
         return recipeDBO?.let { recipeDataSource.addRecipe(recipeDBO = it, ingredientsList = ingredientsDBO) }
     }
 
-    override fun addRecipeToSaved(data: TransferSaved, sp: SharedPreferences) : Boolean {
+    override suspend fun addRecipeToSaved(data: TransferSaved, sp: SharedPreferences) : Boolean {
         return recipeDataSource.addRecipeToSaved(data = data, sp = sp)
     }
 
-    override fun getAllRecipes(data: TransferRecipes) : Boolean{
+    override suspend fun getAllRecipes(data: TransferRecipes) : Boolean{
         return recipeDataSource.getAllRecipes(data = data)
     }
 
-    override fun getRecipeArticle(stringId: String, data: TransferArticle, model: Article) : Boolean  {
+    override suspend fun getRecipeArticle(stringId: String, data: TransferArticle, model: Article) : Boolean  {
          return recipeDataSource.getRecipeArticle(stringId = stringId, data = data, model = mapToArticleDBO(model) )
     }
 

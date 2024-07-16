@@ -7,7 +7,8 @@ import com.nfedorova.cakecal.data.datasource.model.IngredientsDBO
 import com.nfedorova.cakecal.domain.utils.TransferIngredients
 
 class IngredientsDataSourceImpl() : IngredientsDataSource {
-    override fun getIngredients(stringId: String, data: TransferIngredients): Boolean {
+
+    override suspend fun getIngredients(stringId: String, data: TransferIngredients): Boolean {
         val ingredientsList = arrayListOf<IngredientsDBO>()
         val recipesRef = FirebaseFirestore.getInstance().collection("recipes")
         recipesRef.document(stringId)

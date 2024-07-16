@@ -12,6 +12,9 @@ import com.nfedorova.cakecal.domain.utils.TransferArticle
 import com.nfedorova.cakecal.presentation.state.adapter.ArticleAdapter
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
 import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.ArticleViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -31,8 +34,10 @@ class ArticleFragment : Fragment(), TransferArticle {
         adapter = ArticleAdapter(ingredients = ingredientsList)
         recyclerView = binding.rvIngredients
         val calculate = binding.calculate
+        CoroutineScope(Dispatchers.IO).launch {
         calculate.setOnClickListener {view ->
             arguments?.let { viewModel.calculate(view = view, arguments = it) }
+        }
         }
         return binding.root
     }
@@ -44,7 +49,17 @@ class ArticleFragment : Fragment(), TransferArticle {
         val steps = binding.stepsTv
         recyclerView.adapter = adapter
         context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
-        arguments?.let { viewModel.getArticle(arguments = it, title = title, description = description, steps = steps, data = this) }
+        CoroutineScope(Dispatchers.IO).launch {
+            arguments?.let {
+                viewModel.getArticle(
+                    arguments = it,
+                    title = title,
+                    description = description,
+                    steps = steps,
+                    data = this@ArticleFragment
+                )
+            }
+        }
     }
 
     override fun transferData(list: MutableList<Ingredients>) {

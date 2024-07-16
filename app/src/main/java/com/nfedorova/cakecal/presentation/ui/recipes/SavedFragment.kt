@@ -1,4 +1,4 @@
-package com.nfedorova.cakecal.presentation.ui.saved
+package com.nfedorova.cakecal.presentation.ui.recipes
 
 import android.content.Context
 import android.os.Bundle
@@ -13,6 +13,9 @@ import com.nfedorova.cakecal.domain.utils.TransferSaved
 import com.nfedorova.cakecal.presentation.state.adapter.SavedAdapter
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
 import com.nfedorova.cakecal.presentation.state.viewmodel.saved.SavedViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -35,8 +38,10 @@ class SavedFragment : Fragment(), TransferSaved {
         recyclerView.adapter = adapter
         context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
         val sharedPreferences = activity?.getSharedPreferences("UserId", Context.MODE_PRIVATE)
-        if (sharedPreferences != null) {
-            viewModel.addRecipesToSaved(this, sharedPreferences)
+        CoroutineScope(Dispatchers.IO).launch {
+            if (sharedPreferences != null) {
+                viewModel.addRecipesToSaved(data = this@SavedFragment, sp = sharedPreferences)
+            }
         }
         return binding.root
     }

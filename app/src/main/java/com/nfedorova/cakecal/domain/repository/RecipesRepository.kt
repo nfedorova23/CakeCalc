@@ -12,10 +12,11 @@ import com.nfedorova.cakecal.domain.utils.TransferSaved
 
 
 interface RecipesRepository {
-    fun addRecipe(recipe: Recipes, ingredientsList: MutableList<Ingredients>): Boolean?
-    fun addRecipeToSaved(data: TransferSaved, sp: SharedPreferences) : Boolean
-    fun getAllRecipes(data: TransferRecipes) : Boolean
-    fun getRecipeArticle(stringId: String, data: TransferArticle, model: Article) : Boolean
+
+    suspend fun addRecipe(recipe: Recipes, ingredientsList: MutableList<Ingredients>): Boolean?
+    suspend fun addRecipeToSaved(data: TransferSaved, sp: SharedPreferences) : Boolean
+    suspend fun getAllRecipes(data: TransferRecipes) : Boolean
+    suspend fun getRecipeArticle(stringId: String, data: TransferArticle, model: Article) : Boolean
 
 
 }

@@ -10,6 +10,9 @@ import com.nfedorova.cakecal.databinding.ActivityLogInBinding
 import com.nfedorova.cakecal.domain.utils.ChangeOfActivityLogIn
 import com.nfedorova.cakecal.presentation.state.viewmodel.login.LogInViewModel
 import com.nfedorova.cakecal.presentation.ui.MainActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LogInActivity : AppCompatActivity(), ChangeOfActivityLogIn {
@@ -36,8 +39,10 @@ class LogInActivity : AppCompatActivity(), ChangeOfActivityLogIn {
             val pass: TextView = binding.editTextTextPassword
             val button = binding.button
 
-            button.setOnClickListener {
-                viewModel.checkRegister(email = email, pass = pass, change = this)
+            CoroutineScope(Dispatchers.IO).launch {
+                button.setOnClickListener {
+                    viewModel.checkRegister(email = email, pass = pass, change = this@LogInActivity)
+                }
             }
         }
     }

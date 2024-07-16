@@ -9,7 +9,7 @@ import com.nfedorova.cakecal.domain.utils.ChangeOfActivitySignIn
 
 interface UserDataSource {
 
-    fun addDB(userDBO: UserDBO, change: ChangeOfActivitySignIn) : Boolean
-    fun checkData(loginUserDBO: LoginUserDBO, change: ChangeOfActivityLogIn) : Boolean
-    fun logOut(change: ChangeOfActivityLogOut): Boolean
+    suspend fun addDB(userDBO: UserDBO, change: ChangeOfActivitySignIn) : Boolean
+    suspend fun checkData(loginUserDBO: LoginUserDBO, change: ChangeOfActivityLogIn) : Boolean
+    suspend fun logOut(change: ChangeOfActivityLogOut): Boolean
 }

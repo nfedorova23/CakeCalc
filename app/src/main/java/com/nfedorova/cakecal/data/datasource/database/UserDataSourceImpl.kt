@@ -16,11 +16,12 @@ class UserDataSourceImpl(private val context: Context) : UserDataSource {
 
     private val sharedPreferences = context.getSharedPreferences("UserId", Context.MODE_PRIVATE).edit()
     private val shPr = context.getSharedPreferences("Name", Context.MODE_PRIVATE).edit()
-    override fun addDB(userDBO: UserDBO, change: ChangeOfActivitySignIn): Boolean {
+
+    override suspend  fun addDB(userDBO: UserDBO, change: ChangeOfActivitySignIn): Boolean {
         val user = hashMapOf(
             "name" to userDBO.name.text.toString(),
             "email" to userDBO.email.text.toString(),
-            "password" to sha256(userDBO.password.text.toString())
+            "password" to userDBO.password.sha256()
         )
 
         Firebase.firestore.collection("users")
@@ -35,13 +36,13 @@ class UserDataSourceImpl(private val context: Context) : UserDataSource {
         return true
     }
 
-    override fun checkData(loginUserDBO: LoginUserDBO, change: ChangeOfActivityLogIn): Boolean {
+    override suspend fun checkData(loginUserDBO: LoginUserDBO, change: ChangeOfActivityLogIn): Boolean {
         Firebase.firestore.collection("users")
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
                     if (document.getString("email") == loginUserDBO.email.text.toString()) {
-                        if (document.getString("password") == sha256(loginUserDBO.password.text.toString())) {
+                        if (document.getString("password") == loginUserDBO.password.sha256()) {
                             val id = document.id
                             sharedPreferences.putString("UserId", id).apply()
                             change.changeOfActivity()
@@ -55,7 +56,7 @@ class UserDataSourceImpl(private val context: Context) : UserDataSource {
         return true
     }
 
-    override fun logOut(change: ChangeOfActivityLogOut): Boolean {
+    override suspend fun logOut(change: ChangeOfActivityLogOut): Boolean {
         if (sharedPreferences != null) {
                 sharedPreferences.remove("KEY").apply()
                 change.changeOfActivity()

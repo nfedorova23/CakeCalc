@@ -14,6 +14,9 @@ import com.nfedorova.cakecal.domain.model.Recipes
 import com.nfedorova.cakecal.presentation.state.adapter.IngredientsAdapter
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
 import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.AddRecipesViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddRecipesFragment : Fragment() {
@@ -66,7 +69,9 @@ class AddRecipesFragment : Fragment() {
                 Toast.makeText(context, "Введите шаги приготовления", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            viewModel.addRecipes(recipe = recipe, ingredientsList = ingredientsList, view = it)
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.addRecipes(recipe = recipe, ingredientsList = ingredientsList, view = it)
+            }
         }
         return binding.root
     }

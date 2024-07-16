@@ -8,7 +8,7 @@ import com.nfedorova.cakecal.domain.utils.ChangeOfActivityLogIn
 
 
 class CheckRegistrationByEmailUseCase(private val userRepository: UserRepository, private val context: Context) {
-    fun execute(user: LoginUser, change: ChangeOfActivityLogIn): Boolean {
+    suspend fun execute(user: LoginUser, change: ChangeOfActivityLogIn): Boolean {
         if (user.email.text.isNullOrEmpty() && user.password.text.isNullOrEmpty()){
             Toast.makeText(context, "Ошибка авторизации", Toast.LENGTH_SHORT).show()
         }

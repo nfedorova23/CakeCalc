@@ -13,17 +13,17 @@ import com.nfedorova.cakecal.domain.utils.ChangeOfActivitySignIn
 
 class UserRepositoryImpl(private val dataSource: UserDataSource) : UserRepository{
 
-    override fun addDBUserData(userDB: User, change: ChangeOfActivitySignIn) : Boolean {
+    override suspend fun addDBUserData(userDB: User, change: ChangeOfActivitySignIn) : Boolean {
         val userDBO = mapToDBO(userDB)
         return dataSource.addDB(userDBO = userDBO, change = change)
     }
 
-    override fun checkUserData(user: LoginUser, change: ChangeOfActivityLogIn) : Boolean {
+    override suspend fun checkUserData(user: LoginUser, change: ChangeOfActivityLogIn) : Boolean {
         val userDBO = mapToLoginDBO(user)
         return dataSource.checkData(loginUserDBO = userDBO, change = change)
     }
 
-    override fun logOut(change: ChangeOfActivityLogOut): Boolean {
+    override suspend fun logOut(change: ChangeOfActivityLogOut): Boolean {
         return dataSource.logOut(change = change)
     }
 }

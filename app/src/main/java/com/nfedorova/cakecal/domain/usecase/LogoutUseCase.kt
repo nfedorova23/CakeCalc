@@ -4,7 +4,7 @@ import com.nfedorova.cakecal.domain.repository.UserRepository
 import com.nfedorova.cakecal.domain.utils.ChangeOfActivityLogOut
 
 class LogoutUseCase(private val userRepository: UserRepository) {
-    fun execute(change: ChangeOfActivityLogOut): Boolean {
+    suspend fun execute(change: ChangeOfActivityLogOut): Boolean {
         return userRepository.logOut(change = change)
     }
 }

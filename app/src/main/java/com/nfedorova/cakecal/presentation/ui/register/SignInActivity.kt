@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.nfedorova.cakecal.databinding.ActivitySignInBinding
 import com.nfedorova.cakecal.domain.utils.ChangeOfActivitySignIn
 import com.nfedorova.cakecal.presentation.state.viewmodel.signin.SignInViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -32,8 +35,10 @@ class SignInActivity : AppCompatActivity(), ChangeOfActivitySignIn {
         }
 
         val button = binding.button
-        button.setOnClickListener {
-            viewModel.register(name = name, email = email, pass = pass, change = this)
+        CoroutineScope(Dispatchers.IO).launch {
+            button.setOnClickListener {
+                viewModel.register(name = name, email = email, pass = pass, change = this@SignInActivity)
+            }
         }
     }
 

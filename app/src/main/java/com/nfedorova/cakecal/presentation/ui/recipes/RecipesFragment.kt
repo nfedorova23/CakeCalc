@@ -14,6 +14,9 @@ import com.nfedorova.cakecal.domain.utils.TransferRecipes
 import com.nfedorova.cakecal.presentation.state.adapter.RecipesAdapter
 import com.nfedorova.cakecal.presentation.state.utils.makeAdapter
 import com.nfedorova.cakecal.presentation.state.viewmodel.recipes.RecipesViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RecipesFragment : Fragment(), TransferRecipes {
@@ -43,10 +46,12 @@ class RecipesFragment : Fragment(), TransferRecipes {
         adapter = RecipesAdapter(recipes = recipesList, sharedPreferences = sharedPreferences)
         recyclerView.adapter = adapter
         context?.let { makeAdapter(recyclerView = recyclerView, context = it) }
-        viewModel.getRecipes(this)
-        viewModel.onScrolled(recyclerView = recyclerView, addFAB = addFAB)
-        addFAB.setOnClickListener {
-           viewModel.addRecipes(addFAB = addFAB, view = view)
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.getRecipes(this@RecipesFragment)
+            viewModel.onScrolled(recyclerView = recyclerView, addFAB = addFAB)
+            addFAB.setOnClickListener {
+                viewModel.addRecipes(view = view)
+            }
         }
     }
 
